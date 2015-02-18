@@ -155,7 +155,7 @@ Esto levantará WEBrick, un servidor web distribuido con ruby por defecto. Para 
 
 ![Bienvenido a bordo pantallazo](images/getting_started/es-ES/rails_bienvenido.png)
 
-TIP: Para parar el servidor web, teclea Ctrl+C en la terminal donde se está ejectuando el servidor. Para verificar que el servidor ha parado deberías ver el cursor activo en tu terminal otra vez. Para la mayoriade los sistemas tipo UNIX, incluyendo Mac OS X esto debería ser un signo `$`. En el modo de desarrollo, Rails generalmente no require que reinicies el servidor; los cambios que tu hagas en los ficheros ser trasmitirán automaticamente al servidor.
+TIP: Para parar el servidor web, teclea Ctrl+C en la terminal donde se está ejectuando el servidor. Para verificar que el servidor ha parado deberías ver el cursor activo en tu terminal otra vez. Para la mayoria de los sistemas tipo UNIX, incluyendo Mac OS X esto debería ser un signo `$`. En el modo de desarrollo, Rails generalmente no require que reinicies el servidor; los cambios que tu hagas en los ficheros ser trasmitirán automaticamente al servidor.
 
 La página de  "Bienvenido a bordo" es una _prueba de humo_ para una nueva aplicación Rails: asegura que tienes configurado el software lo suficientemente bien para servir una página. También puedes hacer click sobre el enlace _About your application's environment_ (acerca el entorno de tu aplicación) para ver un resumen del entorno de tu aplicación.
 
@@ -860,7 +860,7 @@ def create
 end
 ```
 
-La vista contendrá un formulario similar al que utilizamos cuando creamos nuevos artículos. Crea un fichero llamado `app/views/articulos/edit.html.erb` y has que se tenga lo siguiente:
+La vista contendrá un formulario similar al que utilizamos cuando creamos nuevos artículos. Crea un fichero llamado `app/views/articulos/edit.html.erb` y has que tenga lo siguiente:
 
 ```html+erb
 <h1>Editando un artículo</h1>
@@ -869,8 +869,9 @@ La vista contendrá un formulario similar al que utilizamos cuando creamos nuevo
 
   <% if @articulo.errors.any? %>
     <div id="error_explanation">
-      <h2>
+    <h2>
         <%= pluralize(@articulo.errors.count, "error") %> han impedido que el artículo sea grabado:
+    </h2>
       <ul>
         <% @articulo.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
