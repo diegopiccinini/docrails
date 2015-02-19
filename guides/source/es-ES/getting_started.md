@@ -38,7 +38,7 @@ Tenga en cuenta que algunos recursos, mientras siguen siendo excelentes, cubren 
 --------------
 
 
-Rails es un framework de desarrollo de aplicaciones web escrito en el lenguaje Ruby.
+Rails es un framework de desarrollo de aplicaciones web escrito en el lenguaje de Ruby.
 Está diseñado para simplificar la programación de aplicaciones web, asumiendo que todos los desarrolladores necesitan empezar. Este diseño hace que se tenga que escribir menos código que en otros frameworks.
 Experimentados desarrolladores Rails dicen que el desarrollo de la aplicaciones web se vuelve mucho más divertido.
 

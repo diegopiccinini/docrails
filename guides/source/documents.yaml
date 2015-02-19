@@ -1,10 +1,10 @@
 -
-  name: Start Here
+  name: Empieza aquí
   documents:
     -
-      name: Getting Started with Rails
+      name: Comenzando con Rails
       url: getting_started.html
-      description: Everything you need to know to install Rails and create your first application.
+      description: Todo lo que necesitas para instalar Rails y crear tu primera aplicación.
 -
   name: Models
   documents:
