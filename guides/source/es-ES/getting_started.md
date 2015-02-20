@@ -17,7 +17,7 @@ Después de leer esta guía, tu conocerás:
 Supuestos de la Guía
 --------------------
 
-Esta guía está diseñado para principiantes quienes quieren comenzar con Rails garabateando con el código. Esto no supone que tu tienes una experiencia previa con Rails.
+Esta guía está diseñada para principiantes quienes quieren comenzar con Rails garabateando con el código. Esto no supone que tu tienes una experiencia previa con Rails.
 Sin embargo, para sacar el mejor partido del aprendizaje, tendrás que contar con ciertos prerequisitos de instalación:
 
 * El lenguaje [Ruby](https://www.ruby-lang.org/en/downloads) versión 1.9.3 o superior.
