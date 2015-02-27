@@ -1267,8 +1267,7 @@ TIP: Para más información sobre las asociaciones Active Record, ver la guía [
 
 ### Añadiendo una Ruta para los Comentarios
 
-Como en el controlador `bienvenido`, necesitamos añadir una ruta para que así Rails conozca donde queremos navegar para ver los `comentarios`. Open up the
-`config/routes.rb` file again, and edit it as follows:
+Como en el controlador `bienvenido`, necesitamos añadir una ruta para que así Rails conozca donde queremos navegar para ver los `comentarios`. Abre el fichero `config/routes.rb` y edita lo siguiente:
 
 ```ruby
 resources :articulos do
