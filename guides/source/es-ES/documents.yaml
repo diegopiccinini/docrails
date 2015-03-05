@@ -1,10 +1,10 @@
 -
-  name: Empieza aquí
+  name: Comineza aquí
   documents:
     -
       name: Comenzando con Rails
       url: getting_started.html
-      description: Todo lo que necesitas para instalar Rails y crear tu primera aplicación.
+      description: Todo lo que necesitas conocer para installar Rails y crear tu primera aplicación.
 -
   name: Models
   documents:
@@ -33,7 +33,7 @@
       url: active_record_querying.html
       description: This guide covers the database query interface provided by Active Record.
     -
-      name: Active Model Basics
+      name: Active Model basics
       url: active_model_basics.html
       description: This guide covers the use of model classes without Active Record.
       work_in_progress: true

@@ -1,0 +1,23 @@
+<h2>Guías de Ruby on Rails(<%= @edge ? @version[0, 7] : @version %>)</h2>
+
+<% if @edge %>
+<p>
+  Estos son <b>Guías Paralelas</b>, basados en la reciente rama <a href="https://github.com/rails/rails/tree/<%= @version %>">master</a>.
+</p>
+<p>
+  Si tu estás buscando otra de las versiones estables, por favor verifica <a href="http://guides.rubyonrails.org">http://guides.rubyonrails.org</a> en su lugar.
+</p>
+<% else %>
+<p>
+  Estas son las guías Rails 5.0 basadas sobre <a href="https://github.com/rails/rails/tree/<%= @version %>"><%= @version %></a>.
+  Estas guías están diseñadas para que tengas una inmediata productividad con Rails, y para ayudar a entender como las piezas encajan juntas.
+</p>
+<% end %>
+<p>
+Las guías recientemente realizadas son:
+<a href="http://guides.rubyonrails.org/v4.2.0/">Rails 4.2.0</a>,
+<a href="http://guides.rubyonrails.org/v4.1.8/">Rails 4.1.8</a>,
+<a href="http://guides.rubyonrails.org/v4.0.12/">Rails 4.0.12</a>,
+<a href="http://guides.rubyonrails.org/v3.2.21/">Rails 3.2.21</a> y
+<a href="http://guides.rubyonrails.org/v2.3.11/">Rails 2.3.11</a>.
+</p>
