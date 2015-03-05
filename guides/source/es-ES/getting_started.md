@@ -151,7 +151,7 @@ $ bin/rails server
 
 TIP: Compilar CoffeeScript y JavaScript asset compriprimidos requiere que tengas sofware para ejectutar JavaScript disponible en tu sistema, en la ausencia de una verás un error `execjs` durante la compilation de los assets. Usualmente Mac OS X y Windows viene con su interprete para ejecución de JavaScript instalado. Rails añade la gema `therubyracer` al archivo `Gemfile` generado para las nuevas aplicaciones en una linea comentada, puedes descomentarla si la necesitas. `therubyrhino` es la gema recomendada para usuarios de JRuby y es añadida por defecto en el fichero `Gemfile` en aplicaciones generadas bajo JRuby. Puedes investigar todos los interpretes soportados en [ExecJS](https://github.com/sstephenson/execjs#readme).
 
-Esto levantará WEBrick, un servidor web distribuido con ruby por defecto. Para ver tu aplicación en acción, abre una ventana de navegador en la siguiente dirección <http://localhost:3000>. Deberías ver la página de iformación por defecto de Rails:
+Esto levantará WEBrick, un servidor web distribuido con ruby por defecto. Para ver tu aplicación en acción, abre una ventana de navegador en la siguiente dirección <http://localhost:3000>. Deberías ver la página de información por defecto de Rails:
 
 ![Bienvenido a bordo pantallazo](images/getting_started/es-ES/rails_bienvenido.png)
 
@@ -1237,7 +1237,7 @@ Rails es lo suficientemente inteligente para ejecutar solo las migraciones que n
 
 ### Modelos Asociados
 
-Las asociaciones Active Record te permiten delcarar facilmente la relaciones entre dos modelos. En el caso de los comentarios y los artículos, puedes escribir las relación de esta manera::
+Las asociaciones Active Record te permiten delcarar facilmente la relaciones entre dos modelos. En el caso de los comentarios y los artículos, puedes escribir las relación de esta manera:
 
 * Cada comentario pertenece a un artículo.
 * Un artículo tiene muchos comentarios.
