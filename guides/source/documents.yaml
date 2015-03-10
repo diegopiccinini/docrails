@@ -84,10 +84,10 @@
       url: active_job_basics.html
       description: This guide provides you with all you need to get started in creating, enqueueing and executing background jobs.
     -
-      name: Testing Rails Applications
+      name: Pruebas para Aplicaciones Rails
       work_in_progress: true
       url: testing.html
-      description: This is a rather comprehensive guide to the various testing facilities in Rails. It covers everything from 'What is a test?' to the testing APIs. Enjoy.
+      description: Esta es una guía muy completa de las diferentes herramientas de prueba en Rails. Abarca todo, desde ¿Qué es una prueba? hasta las APIs de pruebas. Disfruta.
     -
       name: Securing Rails Applications
       url: security.html
