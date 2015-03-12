@@ -1,4 +1,4 @@
-**NO LEAS ESTE FICHERO EN GITHUB, LAS GUIAS ESTÁN PUBLICADAS EN http://guides.rubyonrails.org.**
+**NO LEAS ESTE FICHERO EN GITHUB, LAS GUIAS ESTÁN PUBLICADAS EN http://guiasrails.es .**
 
 Comenzando con Rails
 ====================

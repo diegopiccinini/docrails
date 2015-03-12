@@ -33,9 +33,9 @@ Por defecto, toda aplicación Rails tiene tres entornos:
 desarrollo, pruebas y producción. La base de datos para cada uno de ellos se configura en `config/database.yml`.
 
 Una base de datos dedicada a pruebas te permite configurar e interactuar con los los datos de prueba de forma ailsada.
-A dedicated test database allows you to set up and interact with test data in isolation. De esta manera tus pruebas pueden destrozar los datos de prueba con confianza, sin la preocupación de los datos en las bases de datos de desarrollo yo de producción.
+De esta manera tus pruebas pueden destrozar los datos de prueba con confianza, sin la preocupación de los datos en las bases de datos de desarrollo y de producción.
 
-También, cada configuración de entorno puede ser modificada de manera similar. En este caso, podemos modificar nuetro entorno de pruebas cambiando las opciones que se encuentran en
+También, la configuración de cada entorno puede ser modificada de manera similar. En este caso, podemos modificar nuetro entorno de pruebas cambiando las opciones que se encuentran en
  `config/environments/test.rb`.
 
 ### Rails Configurado para Pruebas desde el Primer Momento
@@ -206,9 +206,9 @@ class ArticleTest < ActiveSupport::TestCase
 
 La clase `ArticleTest` define un _caso de pueba_ porque hereda de `ActiveSupport::TestCase`. `ArticleTest` por consiguiente tiene todos los métodos disponibles de `ActiveSupport::TestCase`. Más tarde en esta guía, verás algo de lo que estos métodos te darán.
 
-Cualquier método definido dentro de una clase hereda de `Minitest::Test` (que es la super clase de  `ActiveSupport::TestCase`) que comienza con `test_` (case sensitive) es simplemente llamado un test. Entonces, los métodos definidos como `test_password` y `test_valid_password` son nombres correctos y son ejecutados automáticamente cuando el caso de prueba se ejecuta.
+Cualquier método definido dentro de una clase hereda de `Minitest::Test` (que es la super clase de  `ActiveSupport::TestCase`) y comienza con `test_` (case sensitive) es simplemente llamado un test. Entonces, los métodos definidos como `test_password` y `test_valid_password` son nombres correctos y son ejecutados automáticamente cuando el caso de prueba se ejecuta.
 
-Rails también añade un método `test` que toma un nombre de test y un bloque. Esto genera un test unitario normal `Minitest::Unit` con los nombres de los métodos prefijados con `test_`. Entonces no debes preocuparte acerca de nombrar los métodos, y y puedes escribir algo como:
+Rails también añade un método `test` que toma un nombre de test y un bloque. Esto genera un test unitario normal `Minitest::Unit` con los nombres de los métodos prefijados con `test_`. Entonces no debes preocuparte acerca de nombrar los métodos, y puedes escribir algo como:
 
 ```ruby
 test "the truth" do
@@ -241,7 +241,7 @@ Una afirmación es una línea de código que evalúa un objeto (o expresión) co
 * ¿Esta línea de código lanza una excepción?
 * ¿Tiene la contraseña del usuario más de 5 carateres?
 
-Toda prueba debe contener al menos una afirmación, sin restricciones en cuanto a que cantidad de afirmaciones están permitidas. Solo cuando odas las afirmaciones tienen éxito se pasa la prueba.
+Toda prueba debe contener al menos una afirmación, sin restricciones en cuanto a que cantidad de afirmaciones están permitidas. Solo cuando todas las afirmaciones tienen éxito se pasa la prueba.
 
 ### Mantenimiento del esquema de la base de datos de prueba
 
@@ -303,7 +303,7 @@ Failed assertion, no message given.
 1 tests, 1 assertions, 1 failures, 0 errors, 0 skips
 ```
 
-En la salida, `F` significa un fallo. Puedes ver la traza correspondiente debajo del `1)` mostrando el nombre de la prueba fallida. Las pocas líneas a continuación contienen la traza de la pila seguida por un mensaje que muestra el actual valor y el valor esperado por la afirmación. Los mensajes de afirmación por defecto proveen justo la suficiente información para ayudar a localizar el error. Para hacer el mensaje de afirmación más legible, todas las afirmaciones poseen un  parámetro opcional para mensajes, como se muestra aquí:
+En la salida, `F` significa un fallo. Puedes ver la traza correspondiente debajo del `1)` mostrando el nombre de la prueba fallida. Las pocas líneas a continuación contienen la traza de la pila seguida por un mensaje que muestra el valor actual y el valor esperado por la afirmación. Los mensajes de afirmación por defecto proveen justo la suficiente información para ayudar a localizar el error. Para hacer el mensaje de afirmación más legible, todas las afirmaciones poseen un  parámetro opcional para mensajes, como se muestra aquí:
 
 ```ruby
 test "should not save article without title" do
@@ -338,7 +338,7 @@ Finished tests in 0.047721s, 20.9551 tests/s, 20.9551 assertions/s.
 1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-Ahora, si lo has notado, primero escribimos la prueba que falló por una funcionalidad deseada, luego escribimos algún código que añade la funcionalidad  y finalmente nos aseguramos que pase nuestras pruebas. Este enfoque de desarrollo de software es llamado Desarrollo Conducido por Pruebas y su nombre original en inglés es [_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
+Ahora, si lo has notado, primero escribimos la prueba que falló por una funcionalidad deseada, luego escribimos algún código que añade la funcionalidad  y finalmente nos aseguramos que pase las pruebas. Este enfoque de desarrollo de software es llamado Desarrollo Conducido por Pruebas y su nombre original en inglés es [_Test-Driven Development_ (TDD)](http://c2.com/cgi/wiki?TestDrivenDevelopment).
 
 #### Como se ve un error
 
@@ -374,7 +374,7 @@ NOTE: La ejecución de cada método de prueba se detiene tan pronto como se encu
 [`config.active_support.test_order` option](http://edgeguides.rubyonrails.org/configuring.html#configuring-active-support)
 se puede utilizar para configurar el orden de las pruebas.
 
-Cuando una prueba falla se te presenta la traza que lo indica. Por defecto los filtros de Rails que escriben la traza y solo imprimirán las líneas relevantes de tu aplicación. Esto elimina el ruido del framework y te ayuda a enfocarte en el código. Sin embargo hay sitiuaciones en las que tu quieres ver la traza completa. Simplemente configura la variable de entorno `BACKTRACE` para habilitar este comportamiento:
+Cuando una prueba falla se te presenta la traza que lo indica. Por defecto los filtros de Rails que escriben la traza solo imprimirán las líneas relevantes de tu aplicación. Esto elimina el ruido del framework y te ayuda a enfocarte en el código. Sin embargo hay sitiuaciones en las que tu quieres ver la traza completa. Simplemente configura la variable de entorno `BACKTRACE` para habilitar este comportamiento:
 
 ```bash
 $ BACKTRACE=1 bin/rake test test/models/article_test.rb
@@ -396,13 +396,13 @@ Esta prueba ahora tendría que pasar.
 ### Afirmaciones Disponibles
 
 De momento, ya tienes una idea de algunas afirmaciones.
-Las afirmaciones son las abejas trabajadoras de las pruebas. Ellas son quienes actualmente llevan a cabo los controles para asegurarse que las cosas vayan como las hemos planeado.
+Las afirmaciones son las abejas trabajadoras de las pruebas. Ellas son quienes realmente llevan a cabo los controles para asegurarse que las cosas vayan como las hemos planeado.
 
-Hay un montón de diferentes tipos de afirmaciones puedes utilizar que vienen con [`Minitest`] (https://github.com/seattlerb/minitest), la biblioteca de pruebas por defecto utilizado por Rails.
+Hay un montón de diferentes tipos de afirmaciones puedes utilizar que vienen con [`Minitest`] (https://github.com/seattlerb/minitest), la biblioteca de pruebas por defecto utilizada por Rails.
 
 Para obtener una lista de todas las afirmaciones disponibles,  por favor comprueba la [Documentación API de las Mini Pruebas](http://docs.seattlerb.org/minitest/), especificamente [`Minitest::Assertions`](http://docs.seattlerb.org/minitest/Minitest/Assertions.html)
 
-Por la naturaleza modular del framework de pruebas, es posible crear nuestras propias afirmaciones. En realidad, esto es exactamente lo que Rails hace. Incluye algunas afirmaciones especializada para hacer tu vida más fácil.
+Por la naturaleza modular del framework de pruebas, es posible crear nuestras propias afirmaciones. En realidad, esto es exactamente lo que Rails hace. Incluye algunas afirmaciones especializadas para hacer tu vida más fácil.
 
 NOTE: Crear tus propias afirmaciones es un tópico avanzado que no cubriremos en este tutorial.
 
@@ -412,19 +412,19 @@ Rails añade algunas afirmaciones tradicionales por si mismo al `minitest` frame
 
 | Afirmación                                                                         | Propósito |
 | --------------------------------------------------------------------------------- | ------- |
-| `assert_difference(expressions, difference = 1, message = nil) {...}`             | Prueba la diferencia numérica entre el valor retornado de  una expresión como un resultado de lo que es evaluado en el bloque cedido.|
-| `assert_no_difference(expressions, message = nil, &amp;block)`                    | Afirma que el resultado numérico de la expresión evaluada no esta cambiado antes y después de invocar el bloque que se pasa como parámetro.|
-| `assert_recognizes(expected_options, path, extras={}, message=nil)`               | Afirma que el enrutamiento de la ruta dada fue manejado correctamente y que las opciones analizadas (recibidas en el hash expected_options hash) coinciden con la ruta. Basicamente, afirma que Rails reconoce la ruta dada por expected_options.|
-| `assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)` | Afirmaciones que proveen opciones que pueden ser utilizadas para generar la ruta enviada. Es la inversa de assert_recognizes. Los parametros extra son utilizados para indicarle a la petición los nombres y valores de los parámetros adicionales de la petición que podrían ser en una query string. El parámetro message te permite especificar un mensaje de error personalizado para los fallos de las afirmaciones.|
-| `assert_response(type, message = nil)`                                            | Afirmaciones que la respuesta viene con un código de estado específico. Puedes especificar `:success` para indicar 200-299, `:redirect` para indicar 300-399, `:missing` para indicar 404, o `:error` para asignar el rango 500-599. También puedesenviar un número de estado explícito o sus símbolos equivalentes. Para más información, ver [lista de los códigos de estado](http://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant) y como se funciona el  [mapeo](http://rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant).|
-| `assert_redirected_to(options = {}, message=nil)`                                 | Afirmación que hace coincidir las opciones de redireccionamiento enviadas con la redirección llamada en la última acción. Esta coincidencia puede ser parcial, tal como `assert_redirected_to(controller: "weblog")` también concuerda con la redirección de `redirect_to(controller: "weblog", action: "show")`, etc. También puedes pasar una ruta nombrada tal como `assert_redirected_to root_path` y objetos Active Record objects tal como `assert_redirected_to @article`.|
-| `assert_template(expected = nil, message=nil)`                                    | Afirmaciones que la petición fue representada con el fichero de plantilla apropiado.|
+| `assert_difference(expressions, difference = 1, message = nil) {...}`             | Prueba la diferencia numérica entre el valor retornado como resultado de una expresión  y de lo que se evalúa en el bloque cedido.|
+| `assert_no_difference(expressions, message = nil, &amp;block)`                    | Afirma que el resultado numérico de la expresión evaluada no ha cambiado antes y después de invocar al bloque que se pasa como parámetro.|
+| `assert_recognizes(expected_options, path, extras={}, message=nil)`               | Afirma que el enrutamiento de una ruta dada es manejado correctamente y que las opciones analizadas (recibidas en el hash expected_options hash) coinciden con la ruta. Basicamente, afirma que Rails reconoce la ruta dada por expected_options.|
+| `assert_generates(expected_path, options, defaults={}, extras = {}, message=nil)` | Afirmaciones que proveen opciones que pueden ser utilizadas para generar la ruta enviada. Es la inversa de assert_recognizes. Los parámetros extra son utilizados para indicarle a la petición los nombres y valores de los parámetros adicionales de la petición que podrían ser en una query string. El parámetro message te permite especificar un mensaje de error personalizado para los fallos de las afirmaciones.|
+| `assert_response(type, message = nil)`                                            | Afirma que la respuesta viene con un código de estado específico. Puedes especificar `:success` para indicar 200-299, `:redirect` para indicar 300-399, `:missing` para indicar 404, o `:error` para asignar el rango 500-599. También puedes enviar un número de estado explícito o sus símbolos equivalentes. Para más información, ver [lista de los códigos de estado](http://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant) y como funciona el  [mapeo](http://rubydoc.info/github/rack/rack/master/Rack/Utils#SYMBOL_TO_STATUS_CODE-constant).|
+| `assert_redirected_to(options = {}, message=nil)`                                 | Afirmación que hace coincidir las opciones de redireccionamiento enviadas con la redirección llamada en la última acción. Esta coincidencia puede ser parcial, tal como `assert_redirected_to(controller: "weblog")` también concuerda con la redirección de `redirect_to(controller: "weblog", action: "show")`, etc. También puedes pasar una ruta nombrada tal como `assert_redirected_to root_path` y objetos Active Record tal como `assert_redirected_to @article`.|
+| `assert_template(expected = nil, message=nil)`                                    | Afirma que la petición fue representada con el fichero de plantilla apropiado.|
 
-Verás el uso the algunosde estas afirmaciones en el próximo capítulo.
+Verás el uso the algunas de estas afirmaciones en el próximo capítulo.
 
 ### Una Breve Nota sobre el Minitest
 
-Todos las afirmaciones básicas tal como `assert_equal` definidas en `Minitest::Assertions` están solo disponibles en las  clases que estamos utilizandoen nuestra propio caso de prueba. En realidad, Rails provee las siguientes clases para que puedeas extenderlas:
+Todos las afirmaciones básicas tal como `assert_equal` definidas en `Minitest::Assertions` están solo disponibles en las clases que estamos utilizando en nuestro propio caso de prueba. En realidad, Rails provee las siguientes clases para que puedeas extenderlas:
 
 * `ActiveSupport::TestCase`
 * `ActionController::TestCase`
@@ -437,7 +437,7 @@ Cada una de estas clases incluye `Minitest::Assertions`, permitiéndonos utiliza
 
 NOTE: Para más información sobre `Minitest`, consultar a  [Minitest](http://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest.html)
 
-Pruebas Funcionales para tus Controladores
+Pruebas Funcionales para los Controladores
 ------------------------------------------
 
 En Rails, testear la variedad de acciones de un controlador es una forma de escribir pruebas funcionales.
@@ -453,7 +453,7 @@ Deberías incluir en tu prueba cosas tales como:
 * ¿Fue el objeto correctamente guardado en la plantilla de respuesta?
 * ¿Fue mostrado el mensaje apropiado al usuario en la vista?
 
-Ahora que hemos utilizado el generador de andamiaje Rails para nuestro recurso `Article`, este ya ha creado el código del controlador y de las pruebas. Puedes echar un vistazo al fichero `articles_controller_test.rb` en el directorio `test/controllers`.
+Ahora que hemos utilizado el andamiaje Rails para generar nuestro recurso `Article`, este ya ha creado el código del controlador y de las pruebas. Puedes echar un vistazo al fichero `articles_controller_test.rb` en el directorio `test/controllers`.
 
 Déjame llevarte a través de una prueba, `test_should_get_index` del fichero `articles_controller_test.rb`.
 
@@ -541,21 +541,21 @@ end
 
 ### Los Cuatro Elementos hash del Apocalipsis
 
-Después de que se ha hecho y procesado una petición, tendrás 4 objetos Hash listos para utilizar:
+Después de haber hecho y procesado una petición, tendrás 4 objetos Hash listos para utilizar:
 
 * `assigns` - Algunos objetos que son guardados como variables de instancia en acciones para usarlos en las vistas.
 * `cookies` - Algunas cookies son creadas.
 * `flash` - Algunos objetos residentes en las variables flash.
 * `session` - Algunos objetos residentes en las variables de sesión.
 
-Como el caso de objetos Hash, puedes acceder a los valores referenciando las claves con cadenas de texto. Puedes también referenciarlos con un nombre símbolo, exepto para `assigns`. Por ejemplo:
+Como los objetos se almacenan en un Hash, puedes acceder a los valores referenciando las claves con cadenas de texto. Puedes también referenciarlos con un nombre símbolo, exepto para `assigns`. Por ejemplo:
 
 ```ruby
 flash["gordon"]               flash[:gordon]
 session["shmession"]          session[:shmession]
 cookies["are_good_for_u"]     cookies[:are_good_for_u]
 
-# Porque no puedes usar assigns[:something] por razones históricas:
+# Por razones históricas no puedes usar assigns[:something]:
 assigns["something"]          assigns(:something)
 ```
 
@@ -569,8 +569,7 @@ También tienes acceso a tres variables de instancia en tus pruebas funcionales:
 
 ### Configurando Cabeceras y variables CGI
 
-[Cabeceras HTTP](http://tools.ietf.org/search/rfc2616#section-5.3)
-and
+Las [Cabeceras HTTP](http://tools.ietf.org/search/rfc2616#section-5.3) y las
 [Variables CGI](http://tools.ietf.org/search/rfc3875#section-4.1)
 pueden ser directamente configuradas en la variable de instancia `@request`:
 
@@ -613,7 +612,7 @@ Si estás pintando algún partial, cuando afirmas el  layout, puedes afirmar el 
 
 En caso contrario, la afirmación fallará.
 
-¿Recuerda que añadimos el partial "_form" para la vistas de creación de Articles? Vamos a escribir una afirmación para esto en la acción `:new` ahora:
+¿Recuerdas que añadimos el partial "_form" para la vistas de creación de Articles? Vamos a escribir ahora una afirmación para probar esto en la acción `:new`:
 
 ```ruby
 test "new should render correct layout" do
@@ -624,7 +623,7 @@ end
 
 Esta es la manera correcta de afirmar cuando se pinta un partial con un nombre dado. Como identificado por la clave `:partial` pasado a la llamada `assert_template`.
 
-### Pruebas para avisos `flash`
+### Pruebas para mensajes `flash`
 
 Si recuerdas lo que contamos antes de los Cuatro Hashes del Apocalipsis, uno era `flash`.
 
@@ -639,7 +638,7 @@ test "should create article" do
   end
 
   assert_redirected_to article_path(assigns(:article))
-  assert_equal 'Article was successfully created.', flash[:notice]
+  assert_equal 'El artículo fue creado existosamente.', flash[:notice]
 end
 ```
 
@@ -660,7 +659,7 @@ ArticlesControllerTest#test_should_create_article [/Users/zzak/code/bench/shared
 --- expected
 +++ actual
 @@ -1 +1 @@
--"Article was successfully created."
+-"El artículo fue creado existosamente."
 +nil
 
 1 runs, 4 assertions, 1 failures, 0 errors, 0 skips
@@ -696,9 +695,9 @@ Finished in 0.081972s, 12.1993 runs/s, 48.7972 assertions/s.
 1 runs, 4 assertions, 0 failures, 0 errors, 0 skips
 ```
 
-### Poniendo esto junto
+### Uniendo las Partes
 
-Hasta este punto probamos el controlador Articles con las acciones `:index` también como `:new` y `:create`. ¿Qué pasa con el tratamiento de los datos existentes?
+Hasta este punto probamos el controlador Articles con las acciones `:index` también `:new` y `:create`. ¿Qué pasa con el tratamiento de los datos existentes?
 
 Vamos a escribir una prueba para la acción `:show`:
 
@@ -848,7 +847,7 @@ Para más información sobre las afirmaciones de enrutamiento disponibles en Rai
 Pruebas de Vistas
 -----------------
 
-Probando la respuesta a tu petición afirmando la presencia de claves de elementos HTML y sus contenidos es la manera común para probar las vistas de tu aplicación. El método `assert_select` te permite consultar los elementos HTML de la respuesta utilizando una sintaxis simple pero potente.
+Probar la respuesta a tu petición afirmando la presencia de claves de elementos HTML y sus contenidos es la manera común para probar las vistas de tu aplicación. El método `assert_select` te permite consultar los elementos HTML de la respuesta utilizando una sintaxis simple pero potente.
 
 Hay 2 formularios de `assert_select`:
 
@@ -862,9 +861,9 @@ Por ejemplo, puedes verificar los contenidos en el elemento title en tu respuest
 assert_select 'title', "Bienvenido a la las Guías de Ruby on Rails"
 ```
 
-También puedes utilizar bloques `assert_select` para investigaciones en profundidad.
+También puedes utilizar bloques `assert_select` para comprobaciones en profundidad.
 
-En el siguiente ejemplo, el `assert_select` interior de `li.menu_item` se ejecuta dentro de la colección de elementos seleccionados por el bloque de exterior:
+En el siguiente ejemplo, el `assert_select` interior de `li.menu_item` se ejecuta dentro de la colección de elementos seleccionados por el bloque exterior:
 
 ```ruby
 assert_select 'ul.navigation' do
@@ -872,7 +871,7 @@ assert_select 'ul.navigation' do
 end
 ```
 
-Una colección de elementos seleccionados podrá ser iterada de manera que a través de `assert_select` pueden ser llamada en forma separada.
+Una colección de elementos seleccionados podrá ser iterada de manera que a través de `assert_select` puede ser llamada en forma separada.
 
 Por ejemplo si la respuesta contiene 2 listados ordenados, cada uno con cuatro elementos anidados, entonces las siguientes pruebas pasarán.
 
@@ -888,7 +887,7 @@ assert_select "ol" do
 end
 ```
 
-Esta afirmación es bastante potente. Para más usos avanzados, consultar estar [documentación](http://www.rubydoc.info/github/rails/rails-dom-testing).
+Esta afirmación es bastante potente. Para más usos avanzados, consultar esta [documentación](http://www.rubydoc.info/github/rails/rails-dom-testing).
 
 #### Afirmaciones Adicionales Basadas en Vistas
 
@@ -939,7 +938,7 @@ Además, dado que la clase de prueba extiende de `ActionView::TestCase`, tienes 
 Pruebas de Integración
 ----------------------
 
-Las pruebas de integración son utilizada para probar como varias partes de tu aplicación interacturan. Ellas son generalmente utilizadas para probar el flujo de trabajo (work flow) dentro de la aplicación.
+Las pruebas de integración son utilizadas para probar como varias partes de tu aplicación interacturan. Son generalmente utilizadas para probar el flujo de trabajo (work flow) dentro de la aplicación.
 
 Para crear una prueba de integración de Rails, utilizamos el directorio 'test/integration' de la aplicación. Rails provee un generador para crear un test de integración para tí.
 
@@ -961,21 +960,21 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Heredar de `ActionDispatch::IntegrationTest` viene con algunas ventajas, como hacer disponibles algunos helpers adicionales para utilizar en tus pruebas de integración.
+Al heredar de `ActionDispatch::IntegrationTest` viene con algunas ventajas, como hacer disponibles algunos helpers adicionales que puedes utilizar en tus pruebas de integración.
 
 ### Helpers Disponibles para Pruebas de Integración
 
-Además de los helpers pruebas estandard, al heredar de `ActionDispatch::IntegrationTest` viene con algunos helpers adicionales disponibles para cuando estamos escribiendo pruebas de integración. Vamos a presentarte brevemente a las tres categorías de helpers de donde eligirás.
+Además de los helpers pruebas estandard, al heredar de `ActionDispatch::IntegrationTest` nuestras pruebas de integración vienen con algunos helpers adicionales disponibles que podemos utilizarlos al escribir las pruebas. Vamos a presentarte brevemente a las tres categorías de helpers de donde puedes elegir.
 
 Para tratar con el runner de pruebas de integración, ver [`ActionDispatch::Integration::Runner`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/Runner.html).
 
-Al realizar peticiones, tendrá [`ActionDispatch::Integration::RequestHelpers`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/RequestHelpers.html) available for your use.
+Al realizar peticiones, tendrás [`ActionDispatch::Integration::RequestHelpers`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/RequestHelpers.html) disponible para utilizarlo.
 
 Si quisieras modificar la sesión, o el estado de tu prueba de integración deberías buscar en [`ActionDispatch::Integration::Session`](http://api.rubyonrails.org/classes/ActionDispatch/Integration/Session.html) para conseguir ayuda.
 
 ### Implementando una Prueba de Integración
 
-Vamos a añadir una prueba de integración a nuestra aplicación blog. Comenzaremos un workflow básico de creación de un nuevo artículo del blog, para verificar que todo está funcionando correctamente.
+Vamos a añadir una prueba de integración a nuestra aplicación blog. Comenzaremos con un flujo básico de creación de un nuevo artículo del blog, para verificar que todo está funcionando correctamente.
 
 Comenzaremos generando el esqueleto de nuestra prueba de integración.
 
@@ -984,7 +983,7 @@ Comenzaremos generando el esqueleto de nuestra prueba de integración.
 $ bin/rails generate integration_test blog_flow
 ```
 
-Esta tendría que haber creado el fichero de pruebas en la posición marcada por nosotros, con la salida del comando anterior deberías ver:
+Este comando debería haber creado el fichero de pruebas en la posición indicada por nosotros, en la salida del comando anterior deberías ver:
 
 ```bash
       invoke  test_unit
@@ -1004,9 +1003,9 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
 end
 ```
 
-Si recuerdas desde en la sección  "Probando Vistas" anterior explicamos los `assert_select` para consultar el resultado HTML de una petición.
+Si recuerdas en la sección anterior "Probando Vistas" hemos explicado los `assert_select` para consultar el resultado HTML de una petición.
 
-Cuando visitamos nuestra ruta raíz, deberíamos ver pintado `welcome/index.html.erb` por la vista. Entones esta afirmación debería pasar.
+Entonces cuando visitamos nuestra ruta raíz, la vista debería pintar `welcome/index.html.erb`. Si es así esta afirmación debería pasar.
 
 #### Creando la Integración de artículos
 
@@ -1028,7 +1027,7 @@ test "can create an article" do
 end
 ```
 
-Vamos a desmontar esta prueba así entonces podremos poder entenderla.
+Vamos a analizar paso a paso esta prueba para poder entenderla.
 
 Comenzamos llamando la acción `:new` en nuestro controlador Articles. Esta respuesta debería ser existosa, y podemos verificar si se pinta la plantilla correcta incluyendo el partial del formulario.
 Después de esto hacemos una petición post a la acción `:create` del controlador Articles.
@@ -1049,26 +1048,26 @@ Finalmente podemos afirmar que nuestra respuesta fue existosa, la plantilla fue 
 #### Avanzar un poco más
 
 Hemos sido capaces con éxito de probar un pequeño flujo de trabajo para visitar nuestro blog y crear un nuevo artículo.
-Si queremos llevar esto más lejos podriamos añadir pruebas para comentar, borrar artículos o editar comentarios. Las prubas de integración son un gran lugar para experimentar con todas los tipos de casos de uso de nuestra aplicación.
+Si queremos llevar esto más lejos podríamos añadir pruebas para la creación de comentarios, borrar artículos y editar comentarios. Las pruebas de integración son un gran lugar para experimentar con todos los tipos de casos de uso de nuestra aplicación.
 
-Pruebas de Envíos de Correo
----------------------------
+Pruebas de Envío de Correo
+--------------------------
 
 Las clases para probar envíos de correo requieren algo de inteligencia específica para hacer el trabajo.
 
-### Mantener el Cartero en Verificación
+### Mantener la Verificación del Cartero
 
-Tus clases mailer - como toda otra parte de tu aplicación Rails - debería ser probada para asegurarse que está funcionado como esperas.
+Las clases mailer - como cualquier otra parte de tu aplicación Rails - deberían ser probada para asegurarse que están funcionado como esperas.
 
-Los objetivos de probar tus clases mailer son para asegurarte que:
+El objetivo de probar tus clases mailer es asegurarte que:
 
 * los correos electrónicos están siendo procesados (creados y enviados)
 * el contenido del correo electrónico es correcto (asunto, remitente, cuerpo, etc)
-* los correos correctos son enviados en el momento correcto
+* los correos correctos son envíados en el momento correcto
 
 #### Desde Todas Partes
 
-Hay dos aspectos de probar el mailer, las pruebas unitarias y las pruebas funcionales. En las pruebas unitarias, ejecutas la prueba de un mailer con entradas estrictamente controladas y comparas la salida con un valor conocido (un fixture). En una prueba funcional no pruebas lo hacemos tanto para obtener un acta detallada de lo producido por el mailer; en su lugar, probamos que nuestros modelos y controladores utilizan el mailer de manera correcta. Pruebas para demostrar que el mensaje correcto fue enviado en el momento correcto.
+Hay dos aspectos de probar el mailer, las pruebas unitarias y las pruebas funcionales. En las pruebas unitarias, ejecutas la prueba de un mailer con entradas estrictamente controladas y comparas la salida con un valor conocido (un fixture). La prueba funcional no la hacemos para obtener un amplio detalle de lo que produce el mailer; en su lugar, probamos que nuestros modelos y controladores utilizan el mailer de manera correcta. Son pruebas para demostrar que el mensaje correcto fue enviado en el momento correcto.
 
 ### Pruebas Unitarias
 
@@ -1076,13 +1075,13 @@ Con el fin de probar que tu mailer está funcionando como lo esperas, puedes uti
 
 #### La Venganza de los Fixtures
 
-Para el propósito de pruebas unitarias, los fixtures son utilizados para proveer ejemplos de como las salidas _deberían_ verse. Porque estos son ejemplos de mensajes, y no datos Active Record como los otros fixtures, se mantienen in sus propios subidirectorios aparte de los otros other fixtures. El nombre del directorio dentro de `test/fixtures` directamente corresponde al nombre del mailer. Entonces, para un mailer llamado `UserMailer`, los fixtures deberían residir en el directorio `test/fixtures/user_mailer`.
+Con el propósito de realizar pruebas unitarias, los fixtures son utilizados para proveer ejemplos de como las salidas _deberían_ verse. Por ser estos ejemplos de mensajes, y no datos Active Record como los otros fixtures, se mantienen en sus propios subdirectorios aparte de los otros fixtures. El nombre del directorio dentro de `test/fixtures` directamente corresponde al nombre del mailer. Entonces, para un mailer llamado `UserMailer`, los fixtures deberían residir en el directorio `test/fixtures/user_mailer`.
 
-Cuando generas el mailer, el generador crea un fixtures modelo para cada uno de las acciones mailers. Si tu utilizasteis el generador tendrás que crear estos ficheros tu mismo a mano.
+Cuando generas el mailer, el generador crea fixtures de resguardo para cada una de las acciones mailers. Si no has utilizado el generador tendrás que crear estos ficheros tu mismo a mano.
 
 #### El Caso de Uso Básico
 
-Aquí tenemos una prueba unitaria para probar un mailer llamado `UserMailer` cuya acción `invite` es utilizada para enviar una invitación a un amigo. Es una versión adaptada dela prueba de base creada por el generador para una acción `invite`.
+Aquí tenemos una prueba unitaria para probar un mailer llamado `UserMailer` cuya acción `invite` es utilizada para enviar una invitación a un amigo. Es una versión adaptada de la prueba base creada por el generador para una acción `invite`.
 
 ```ruby
 require 'test_helper'
@@ -1104,7 +1103,7 @@ class UserMailerTest < ActionMailer::TestCase
 end
 ```
 
-En la prueba enviamos el mensaje y almacenamos el objeto retornado la variable `email`. Entonces nos aseguramos que fue enviado (la primera afirmación), luego, en el segundo lote de afirmaciones, nos aseguramos que el email contiene en realidad lo que esperamos. El helper `read_fixture` es utilizado para leer dentro del contenido de este fichero.
+En la prueba enviamos el mensaje y almacenamos el objeto retornando la variable `email`. Entonces nos aseguramos que fue enviado (la primera afirmación), luego, en el segundo lote de afirmaciones, nos aseguramos que el email contiene en realidad lo que esperamos. El helper `read_fixture` es utilizado para leer dentro del contenido de este fichero.
 
 Aquí el contenido del fichero `invite`:
 
@@ -1116,20 +1115,19 @@ You have been invited.
 Cheers!
 ```
 
-Este es el momento correcto para entender un poco más acerca de la escritura de pruebas para tus mailers. La línea `ActionMailer::Base.delivery_method = :test` en
-`config/environments/test.rb` configura el método de entrega para el modo de prueba entonces que el mensaje no será realmente enviado (útil para no enviar correo basura a los usuarios mientras pruebas) pero en su lugar será añadido a un array
-(`ActionMailer::Base.deliveries`).
+Este es el momento correcto para entender un poco más acerca de la escritura de pruebas para tus mailers. La línea `ActionMailer::Base.delivery_method = :test` de
+`config/environments/test.rb` configura el método de entrega para el modo de prueba, entonces el mensaje no será realmente enviado (útil para no enviar correo basura a los usuarios mientras pruebas) pero en su lugar será añadido a un array (`ActionMailer::Base.deliveries`).
 
 NOTE: El array `ActionMailer::Base.deliveries` es solo reinicializado automaticamente en pruebas
-`ActionMailer::TestCase`. Si quieres tener una pizarra en blanco fuera de la salida de las pruebas Action
+`ActionMailer::TestCase`. Si quieres tener una pizarra en blanco para la salida de las pruebas Action
 Mailer, la puedes borrar manualmente con:
 `ActionMailer::Base.deliveries.clear`
 
 ### Pruebas Funcionales
 
-Las pruebas funcionales para mailers envuelven más que solo comprobar el cuerpo del mensaje, destinatarios, -y así sucesivamente- son correctos.
+Las pruebas funcionales para mailers envuelven son algo más que comprobar que el cuerpo del mensaje, los destinatarios, etc., son correctos.
 En una prueba funcional de correo llamas a los métodos de entrega de correo y pruebas que los mensajes apropiados han sido añadidos a la lista de entrega.
-Es bastante seguro asumir que los métodos de entrega hacen su trabajo. Estarás probablemente más interesado en verificar la lógica de nogocio de la aplicación, si está enviado mensajes cuando esperas que salgan. Por ejemplo, puedes comprobar que la operación invite friend está enviando un mensaje apropiadamente:
+Es bastante seguro asumir que los métodos de entrega hacen su trabajo. Por eso en las pruebas funcionales, estarás probablemente más interesado en verificar la lógica de nogocio de la aplicación, es decir, si la aplicación está enviado mensajes cuando esperas que salgan. Por ejemplo, puedes comprobar que la operación invite friend está enviando un mensaje apropiadamente:
 
 ```ruby
 require 'test_helper'
@@ -1151,9 +1149,9 @@ end
 Pruebas de Trabajos
 -------------------
 
-Desde que tus pueden ser encolados a diferentes niveles dentro de tu aplicación, necesitarás probar ambos trabajos por sí mismos (sus comportamiento cuando son encolados) y que otras entidades correctamente los encolen corramente.
+Desde que tus trabajos (jobs) pueden ser encolados a diferentes niveles dentro de tu aplicación, necesitarás probar por sí mismas estas dos cosas: el comportamiento cuando son encolados y que otras entidades los encolen corramente.
 
-### Un Básico Caso de Prueba
+### Un Caso Básico de Prueba
 
 Por defecto, cuando generas un trabajo, una prueba asociada se generará también bajo el directorio `test/jobs`. Aquí una prueba de ejemplo de un trabajo de facturación:
 
@@ -1170,7 +1168,7 @@ end
 
 Esta es una simple y bonita prueba y solo afirma que el trabajo tiene el funcionamiento que se espera.
 
-Por defecto, `ActiveJob::TestCase` configurará el adpatador del encolado a `:test` de modo que los trabajos se realicen en línea. Esto también asegura que todos los  trabajos previamente realizados y encolados son limpiados antes de que cualquier prueba se ejecute, entones puedes asumir con seguridad que no hay trabajos que ya han sido  ejecutados en el ámbito de cada prueba.
+Por defecto, `ActiveJob::TestCase` configurará el adpatador del encolado a `:test` de modo que los trabajos se realicen en línea. Esto también asegura que todos los  trabajos previamente realizados y encolados son limpiados antes de que cualquier prueba se ejecute, entonces puedes asumir con seguridad que no hay trabajos que ya han sido  ejecutados en el ámbito de cada prueba.
 
 
 
@@ -1178,8 +1176,8 @@ Por defecto, `ActiveJob::TestCase` configurará el adpatador del encolado a `:te
 
 Active Job viene con un lote de afirmaciones personalizadas que pueden ser utilizadas para disminuir el nivel de los mensajes de salida de las pruebas. Para una lista completa de las afirmaciones disponibles, ver la documentación API para [`ActiveJob::TestHelper`](http://api.rubyonrails.org/classes/ActiveJob/TestHelper.html).
 
-Esta es una buena práctica para asegurarse que tus trabajos son correctamente encolados y realizados si los invocas (por ejemplo dentro de los controladores).
-Esto es precisamente donde las afirmaciones personalizadas proveidas por Active Jov son muy útiles. Para ejemplo, dentro de un modelo:
+Esta es una buena práctica para asegurarse que tus trabajos son correctamente encolados y realizados cuando se invocan (por ejemplo dentro de los controladores).
+Aquí es precisamente donde las afirmaciones personalizadas proveídas por Active Job son muy útiles. Por ejemplo, dentro de un modelo:
 
 ```ruby
 require 'test_helper'
@@ -1196,7 +1194,7 @@ end
 Otros Enfoques de Pruebas
 -------------------------
 
-La construcción de una prueba basada en un `minitest` no es el único camino para probar aplicaciones Rails. Los desarrolladores Rails han llegado a una gran variedad de enfoques y ayudas para pruebas, incluyendo:
+La construcción de una prueba basada en un `minitest` no es el único camino para probar aplicaciones Rails. Los desarrolladores Rails han llegado a una gran variedad de enfoques y ayudas para realizar pruebas, incluyendo:
 
 * [NullDB](http://avdi.org/projects/nulldb/), una manera de acelerar las pruebas evitando el uso de las bases de datos.
 * [Factory Girl](https://github.com/thoughtbot/factory_girl/tree/master), un reemplazo para los fixtures.
