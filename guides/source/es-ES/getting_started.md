@@ -369,7 +369,7 @@ llamado `form_for`. Para utilizar este método, añade este código dentro de
   </p>
 
   <p>
-    <%= f.submit 'Guardar Comentario' %>
+    <%= f.submit 'Guardar Artículo' %>
   </p>
 <% end %>
 ```
@@ -444,7 +444,7 @@ def create
 end
 ```
 
-El metodo `render` aqui está tomando un simple hash con una clave `plain` y el valor de  `params[:articulo].inspect`. El metodo `params` es un objeto, que representa los parametros (o campos) que vienen desde el formulario. El método `params` retorna un objeto `ActiveSupport::HashWithIndifferentAccess`, el cual te habilita a acceder a las claves del hash utilizando o cadenas de texto o símbolos. En esta situación, los únicos parámetros que inportan son aquellos que vienen desde el formulario.
+El metodo `render` aqui está tomando un simple hash con una clave `plain` y el valor de  `params[:articulo].inspect`. El metodo `params` es un objeto, que representa los parametros (o campos) que vienen desde el formulario. El método `params` retorna un objeto `ActiveSupport::HashWithIndifferentAccess`, el cual te habilita a acceder a las claves del hash utilizando o cadenas de texto o símbolos. En esta situación, los únicos parámetros que importan son aquellos que vienen desde el formulario.
 
 TIP: Asegurate de tener una sólida comprensión del método `params`, porque lo utilizarás con bastante regulardidad. Vamos a considerar este ejemplo de URL: **http://www.example.com/?username=dhh&email=dhh@email.com**. En esta URL, `params[:username]` sería igual a "dhh" y `params[:email]` sería igual a "dhh@email.com".
 
