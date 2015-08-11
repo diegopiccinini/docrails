@@ -1,63 +1,47 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+**NO LEAS ESTE FICHERO EN GITHUB, LAS GUIAS ESTÁN PUBLICADAS EN http://www.guiasrails.es**
 
-Active Record Basics
-====================
+Fundamentos de Active Record
+============================
 
-This guide is an introduction to Active Record.
+Esta guía es una introducción a Active Record, (Registro Activo).
 
-After reading this guide, you will know:
+Después de leer esta guía, conocerás:
 
-* What Object Relational Mapping and Active Record are and how they are used in
-  Rails.
-* How Active Record fits into the Model-View-Controller paradigm.
-* How to use Active Record models to manipulate data stored in a relational
-  database.
-* Active Record schema naming conventions.
-* The concepts of database migrations, validations and callbacks.
+* Qué son el Mapeo de Objetos Relacionales y Active Record y como se utilizan en Rails.
+* Cómo entra Active Record en el paradigma Modelo-Vista-Controlador.
+* Cómo se utilizan los modelos Active Record para manipular datos buardados en una base de datos relacional.
+* Las convenciones sobre el esquema de nombres en Active Record.
+* Los conceptos de migraciones de bases de datos, validaciones y retrollamadas.
 
 --------------------------------------------------------------------------------
 
-What is Active Record?
+¿Que es Active Record?
 ----------------------
 
-Active Record is the M in [MVC](getting_started.html#the-mvc-architecture) - the
-model - which is the layer of the system responsible for representing business
-data and logic. Active Record facilitates the creation and use of business
-objects whose data requires persistent storage to a database. It is an
-implementation of the Active Record pattern which itself is a description of an
-Object Relational Mapping system.
+Active Record es la M en [MVC](getting_started.html#the-mvc-architecture) - el modelo - el cual es la capa del sistema responsable de representar los datos y la lógica de nogocio para manipularlos. Active Record facilita la creación y manipulación de objetos de negocio quienes requieren ser almacenados persistentemente en una base de datos. Esta es una implementación del patrón de Active Record el cual en si mismo es una descripción de un sitema de Mapeo de Objetos Relacionales.
 
-### The Active Record Pattern
+### El Patrón Active Record
 
-[Active Record was described by Martin Fowler](http://www.martinfowler.com/eaaCatalog/activeRecord.html)
-in his book _Patterns of Enterprise Application Architecture_. In
-Active Record, objects carry both persistent data and behavior which
-operates on that data. Active Record takes the opinion that ensuring
-data access logic as part of the object will educate users of that
-object on how to write to and read from the database.
+[Active Record fue descripto por Martin Fowler](http://www.martinfowler.com/eaaCatalog/activeRecord.html)
+en su libro  _Patterns of Enterprise Application Architecture_. En
+Active Record, los objetos soportan tanto la persistencia y el comportamiento que opera con los datos. Active Record toma la opinion que al asegurar el acceso lógico a los datos como parte del objeto educará a los usuarios de ese objeto sobre como escribir y leer en la base de datos.
 
-### Object Relational Mapping
+### Mapeo de Objetos Relacionales
 
-Object-Relational Mapping, commonly referred to as its abbreviation ORM, is
-a technique that connects the rich objects of an application to tables in
-a relational database management system. Using ORM, the properties and
-relationships of the objects in an application can be easily stored and
-retrieved from a database without writing SQL statements directly and with less
-overall database access code.
+El Mapeo de Objetos Relacionales (Object-Relational Mapping), comunmente nombrado por sus siglas ORM, es una técnica que conecta la riquesa de los objetos de una aplicación con las tablas de un sistema de base de datos relacional. Utilizando ORM, las propiedades y las relaciones de los objetos en una aplicación pueden ser facilmente guardadas y recuperadas desde la base de datos sin escribir sentencias SQL directamente y con el mínimo código en general de acceso a la base de datos.
 
-### Active Record as an ORM Framework
+### Active Record como un Framework ORM
 
-Active Record gives us several mechanisms, the most important being the ability
-to:
+Active Record brinda varios mecanismos, los más importantes nos la capacidad para:
 
-* Represent models and their data.
-* Represent associations between these models.
-* Represent inheritance hierarchies through related models.
-* Validate models before they get persisted to the database.
-* Perform database operations in an object-oriented fashion.
+* Representar modelos y sus datos.
+* Representar asociaciones entre esos modelos.
+* Representar jerarquías de herencia a través de modelos relacionados.
+* Validar modelos antes the que sean guardados o cambiados en la base de datos.
+* Mantener las operaciones de la base de datos orientadas a objetos.
 
-Convention over Configuration in Active Record
-----------------------------------------------
+Convención sobre Configuración en Active Record
+-----------------------------------------------
 
 When writing applications using other programming languages or frameworks, it
 may be necessary to write a lot of configuration code. This is particularly true
