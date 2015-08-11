@@ -9,9 +9,9 @@
   name: Models
   documents:
     -
-      name: Active Record Basics
+      name: Fundamentos de Active Record
       url: active_record_basics.html
-      description: This guide will get you started with models, persistence to database and the Active Record pattern and library.
+      description: Esta guía te dará una introducción al modelo, a la persistencia en una base de datos y también al patrón y a la librería de Active Record.
     -
       name: Active Record Migrations
       url: active_record_migrations.html
