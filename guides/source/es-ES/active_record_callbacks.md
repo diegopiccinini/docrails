@@ -1,16 +1,14 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+**NO LEAS ESTE FICHERO EN GITHUB, LAS GUIAS ESTÁN PUBLICADAS EN http://www.guiasrails.es**
 
 Active Record Callbacks
 =======================
+Esta guía te enseñará como mantener el ciclo de vida de tus objetos Active Record.
 
-This guide teaches you how to hook into the life cycle of your Active Record
-objects.
+Después de leer esta guía conoceras:
 
-After reading this guide, you will know:
-
-* The life cycle of Active Record objects.
-* How to create callback methods that respond to events in the object life cycle.
-* How to create special classes that encapsulate common behavior for your callbacks.
+* El ciclo de vida de los objetos Active Record.
+* Como crear métodos de retrollamada que respondan a eventos en el ciclo de vida del objeto.
+* Como crear clases especiales para encapsular el comportamietno comun para tus callbacks.
 
 --------------------------------------------------------------------------------
 

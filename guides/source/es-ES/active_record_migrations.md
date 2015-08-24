@@ -1,38 +1,28 @@
-**DO NOT READ THIS FILE ON GITHUB, GUIDES ARE PUBLISHED ON http://guides.rubyonrails.org.**
+**NO LEAS ESTE FICHERO EN GITHUB, LAS GUIAS ESTÁN PUBLICADAS EN http://www.guiasrails.es**
 
-Active Record Migrations
-========================
+Active Record Migraciones
+=========================
 
-Migrations are a feature of Active Record that allows you to evolve your
-database schema over time. Rather than write schema modifications in pure SQL,
-migrations allow you to use an easy Ruby DSL to describe changes to your
-tables.
+Las migraciones son la característica de Active Record que permite mantener tu esquema de base de datos a través del tiempo. En lugar de escribir las modificaciones del esquema en SQL puro, las migraciones te permiten utilizar un lenguaje de definción fácil en Ruby DSL, para describir cambios para tus tablas.
 
-After reading this guide, you will know:
+Después de leeer esta guía sabrás:
 
-* The generators you can use to create them.
-* The methods Active Record provides to manipulate your database.
-* The Rake tasks that manipulate migrations and your schema.
-* How migrations relate to `schema.rb`.
+* Los comandos generadores que puedes utilizar para crearlas.
+* Los métodos que Active Record provee para manipular tu base de datos.
+* Las tareas Rake para manipular las migraciones y el esquema.
+* Cómo las migraciones afectan al fichero `schema.rb`.
 
 --------------------------------------------------------------------------------
 
-Migration Overview
-------------------
+Resumen de las Migraciones
+--------------------------
 
-Migrations are a convenient way to
-[alter your database schema over time](http://en.wikipedia.org/wiki/Schema_migration)
-in a consistent and easy way. They use a Ruby DSL so that you don't have to
-write SQL by hand, allowing your schema and changes to be database independent.
+Las migraciones son el modo  conveniente de
+[cambiar el esquema de tu base de datos a través del tiempo](http://en.wikipedia.org/wiki/Schema_migration) de una manera consistente y fácil. Ellas utilizan un lenguaje de Definición de Esquemas (DSL) en Ruby por lo que no tienes que escribir SQL a mano, permitiendole al esquema y a los cambios en la base de datos ser independientes.
+Puedes pensar cada migración como una nueva 'versión' de la base de datos. Un esquema comienza sin nada dentro, y cada migración lo modifica para añadir o remover tablas, columnas, o registros. Active Record conoce como actualizar tu esquema a lo largo de su vida, trayendo desde cualquier punto de su historia hasta la última versión. Active Record actualizará también el fichero
+`db/schema.rb` para emparejar la estructura modificada de tu base de datos.
 
-You can think of each migration as being a new 'version' of the database. A
-schema starts off with nothing in it, and each migration modifies it to add or
-remove tables, columns, or entries. Active Record knows how to update your
-schema along this timeline, bringing it from whatever point it is in the
-history to the latest version. Active Record will also update your
-`db/schema.rb` file to match the up-to-date structure of your database.
-
-Here's an example of a migration:
+Aquí un ejemplo de migración:
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -47,29 +37,16 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-This migration adds a table called `products` with a string column called
-`name` and a text column called `description`. A primary key column called `id`
-will also be added implicitly, as it's the default primary key for all Active
-Record models. The `timestamps` macro adds two columns, `created_at` and
-`updated_at`. These special columns are automatically managed by Active Record
-if they exist.
+Esta migración añade una tabla llamada `products` con una columna cadena de caractéres llamada `name` y una columna de texto llamada  `description`. Una  columna de clave primaria llamada `id` será también añadida implicitamente, como la clave primaria por defecto para todos los modelos Active
+Record. Los macro `timestamps` añaden dos columnas, `created_at` y
+`updated_at`. Estas columnas especiales son automaticamemente administradas por Active Record si existen.
 
-Note that we define the change that we want to happen moving forward in time.
-Before this migration is run, there will be no table. After, the table will
-exist. Active Record knows how to reverse this migration as well: if we roll
-this migration back, it will remove the table.
+Nota que nosotros definimos el cambio que queremos que ocurra a través del tiempo. Antes de que esta migración se ejecute, no existía la tabla, después de la migración la tabla existirá. Active Record sabe como revertir esta migración tan bien. que si ejecutamos la migración hacia atrás, borrará la tabla.
+En las bases de datos que soportan transacciones con declaraciones que cambian el esquema, las migraciones son envueltas en una trasacción. Si la base de datos no soporta esto, cuando una migración falla la parte de esta que ha tenido éxito no se vuelve atrás. Tendrás que hacer el retroceso de los cambios que fueron hechos a mano.
 
-On databases that support transactions with statements that change the schema,
-migrations are wrapped in a transaction. If the database does not support this
-then when a migration fails the parts of it that succeeded will not be rolled
-back. You will have to rollback the changes that were made by hand.
+NOTE: Hay ciertas consultas que no pueden ejecutarse en una transacción. Si tu adaptador soporta transacciones DSL puedes utilizar `disable_ddl_transaction!` para deshabilitarlas para una simple migración.
 
-NOTE: There are certain queries that can't run inside a transaction. If your
-adapter supports DDL transactions you can use `disable_ddl_transaction!` to
-disable them for a single migration.
-
-If you wish for a migration to do something that Active Record doesn't know how
-to reverse, you can use `reversible`:
+Si tu deseas en una migración hacer algo que Active Record no sabe como revertir, puedes utilizar `reversible`:
 
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
@@ -83,8 +60,7 @@ class ChangeProductsPrice < ActiveRecord::Migration
   end
 end
 ```
-
-Alternatively, you can use `up` and `down` instead of `change`:
+Alternativamente, puedes utilizar `up` y `down` en lugar de `change`:
 
 ```ruby
 class ChangeProductsPrice < ActiveRecord::Migration
@@ -102,31 +78,22 @@ class ChangeProductsPrice < ActiveRecord::Migration
 end
 ```
 
-Creating a Migration
---------------------
+Creando una Migración
+---------------------
 
-### Creating a Standalone Migration
+### Creando una Migración Independiente
 
-Migrations are stored as files in the `db/migrate` directory, one for each
-migration class. The name of the file is of the form
-`YYYYMMDDHHMMSS_create_products.rb`, that is to say a UTC timestamp
-identifying the migration followed by an underscore followed by the name
-of the migration. The name of the migration class (CamelCased version)
-should match the latter part of the file name. For example
-`20080906120000_create_products.rb` should define class `CreateProducts` and
-`20080906120001_add_details_to_products.rb` should define
-`AddDetailsToProducts`. Rails uses this timestamp to determine which migration
-should be run and in what order, so if you're copying a migration from another
-application or generate a file yourself, be aware of its position in the order.
+Las migraciones son grabadas como ficheros  en el directorio `db/migrate`, una por una para cada clase migration. El nombre del fichero es de la forma `YYYYMMDDHHMMSS_create_products.rb`, que es para darle como decir un instante del tiempo UTC para identificar la migración seguida por un guión bajo seguido de un nombre de migración. El nombre de la clase migración (versión CamelCased) debería emparejar con la parte posterior del nonbre del fichero. Por ejemplo en el fichero `20080906120000_create_products.rb` se deberia definir la clase `CreateProducts` y en el fichero
+`20080906120001_add_details_to_products.rb` se debería definir
+`AddDetailsToProducts`. Rails utiliza esta marca de tiempo para determinar cual migración debería ejecutarse en su correspondiente orden, entonces si tu estás copiando desde otra aplicación o generas el fichero por ti mismo, se consciente de sus posiciones en el orden.
 
-Of course, calculating timestamps is no fun, so Active Record provides a
-generator to handle making it for you:
+Por supuesto, calcular los instantes no es divertido, entonces Active Record provee un generador que hace esto por ti:
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts
 ```
 
-This will create an empty but appropriately named migration:
+Esto creará una migración vacía pero con el nombre apropiado:
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -135,15 +102,13 @@ class AddPartNumberToProducts < ActiveRecord::Migration
 end
 ```
 
-If the migration name is of the form "AddXXXToYYY" or "RemoveXXXFromYYY" and is
-followed by a list of column names and types then a migration containing the
-appropriate `add_column` and `remove_column` statements will be created.
+Si el nombre de la migración es de la forma "AddXXXToYYY" o "RemoveXXXFromYYY" y es seguido por una lista de nombres de columnas y tipos, luego una migración conteniendo las declaraciones apropiadas `add_column` y `remove_column` será creada.
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts part_number:string
 ```
 
-will generate
+generará
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -153,13 +118,13 @@ class AddPartNumberToProducts < ActiveRecord::Migration
 end
 ```
 
-If you'd like to add an index on the new column, you can do that as well:
+Si tu quieres indexar una nueva columna, puedes hacerlo así:
 
 ```bash
 $ bin/rails generate migration AddPartNumberToProducts part_number:string:index
 ```
 
-will generate
+generará
 
 ```ruby
 class AddPartNumberToProducts < ActiveRecord::Migration
@@ -171,13 +136,13 @@ end
 ```
 
 
-Similarly, you can generate a migration to remove a column from the command line:
+De modo similar, puedes generar una migración para remover una columna desde la línea de comandos:
 
 ```bash
 $ bin/rails generate migration RemovePartNumberFromProducts part_number:string
 ```
 
-generates
+genera
 
 ```ruby
 class RemovePartNumberFromProducts < ActiveRecord::Migration
@@ -187,13 +152,13 @@ class RemovePartNumberFromProducts < ActiveRecord::Migration
 end
 ```
 
-You are not limited to one magically generated column. For example:
+No estás limitado para añadir una columna generada magicamente. Por ejemplo:
 
 ```bash
 $ bin/rails generate migration AddDetailsToProducts part_number:string price:decimal
 ```
 
-generates
+genera
 
 ```ruby
 class AddDetailsToProducts < ActiveRecord::Migration
@@ -204,15 +169,13 @@ class AddDetailsToProducts < ActiveRecord::Migration
 end
 ```
 
-If the migration name is of the form "CreateXXX" and is
-followed by a list of column names and types then a migration creating the table
-XXX with the columns listed will be generated. For example:
+Si el nombre de la migración es de la forma "CreateXXX" y es seguida por una lista de nombres de columnas y tipos entonces  será generada una migración para crear la tabla XXX con las columnas listadas. Por ejemplo:
 
 ```bash
 $ bin/rails generate migration CreateProducts name:string part_number:string
 ```
 
-generates
+genera
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -225,18 +188,16 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-As always, what has been generated for you is just a starting point. You can add
-or remove from it as you see fit by editing the
-`db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb` file.
+Como siempre, lo que ha sido recientemente generado es un punto de partida. Puedes añadir o remover lo que sea adecuado editando el fichero
+`db/migrate/YYYYMMDDHHMMSS_add_details_to_products.rb`.
 
-Also, the generator accepts column type as `references`(also available as
-`belongs_to`). For instance:
+También, el generador acepta tipos de columna como `references`(también disponible como `belongs_to`). Como ejemplo:
 
 ```bash
 $ bin/rails generate migration AddUserRefToProducts user:references
 ```
 
-generates
+genera
 
 ```ruby
 class AddUserRefToProducts < ActiveRecord::Migration
@@ -246,15 +207,15 @@ class AddUserRefToProducts < ActiveRecord::Migration
 end
 ```
 
-This migration will create a `user_id` column and appropriate index.
+Esta migración creará una columna `user_id` y un índice apropiado.
 
-There is also a generator which will produce join tables if `JoinTable` is part of the name:
+Hay también un generador que produce tablas de intersección, si `JoinTable` es parte del nombre:
 
 ```bash
 $ bin/rails g migration CreateJoinTableCustomerProduct customer product
 ```
 
-will produce the following migration:
+producirá la siguiente migración:
 
 ```ruby
 class CreateJoinTableCustomerProduct < ActiveRecord::Migration
@@ -267,18 +228,15 @@ class CreateJoinTableCustomerProduct < ActiveRecord::Migration
 end
 ```
 
-### Model Generators
+### Generadores del Modelo
 
-The model and scaffold generators will create migrations appropriate for adding
-a new model. This migration will already contain instructions for creating the
-relevant table. If you tell Rails what columns you want, then statements for
-adding these columns will also be created. For example, running:
+Los generadores the modelos y de andamiaje crearán las migraciones apropiadas para añadir un nuevo modelo. Estas migraciones ya contendrán las instrucciones para la creación de la correspondiente tabla. Si le dices a Rils que columnas quieres, luego las declaraciones para añadir esas columnas serán también creadas. Por ejemplo, ejecutando:
 
 ```bash
 $ bin/rails generate model Product name:string description:text
 ```
 
-will create a migration that looks like this
+creará una migración que se ve de la siguiente manera:
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -293,20 +251,20 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-You can append as many column name/type pairs as you want.
+Puedes añadir columnas con cuantos pares nombre/tipo como quieras.
 
-### Passing Modifiers
 
-Some commonly used [type modifiers](#column-modifiers) can be passed directly on
-the command line. They are enclosed by curly braces and follow the field type:
+### Modificadores de Paso
 
-For instance, running:
+Algo comunmente utilizado [tipo de modificador](#columna-modificada) pueden ser pasados directamente en la lína de comandos. Están encerrados por llaves y después del tipo de campo:
+
+Por ejemplo, ejecutando:
 
 ```bash
 $ bin/rails generate migration AddDetailsToProducts 'price:decimal{5,2}' supplier:references{polymorphic}
 ```
 
-will produce a migration that looks like this
+producirá una migración que luce como esta
 
 ```ruby
 class AddDetailsToProducts < ActiveRecord::Migration
@@ -317,19 +275,16 @@ class AddDetailsToProducts < ActiveRecord::Migration
 end
 ```
 
-TIP: Have a look at the generators help output for further details.
+TIP: Echa un vistazo a las ayudas de los generadores para mayor detalle.
 
-Writing a Migration
--------------------
+Escribiendo una Migración
+-------------------------
 
-Once you have created your migration using one of the generators it's time to
-get to work!
+¡Una vez que has creado tu migración utilizando uno de los generadores es tiempo de comenzar el trabajo!
 
-### Creating a Table
+### Creando una Tabla
 
-The `create_table` method is one of the most fundamental, but most of the time,
-will be generated for you from using a model or scaffold generator. A typical
-use would be
+El método `create_table` es uno de los fundamentales, pero la mayoría del tiempo, los generarás utilizando un generador del modelo o de andamiaje. Un típico uso podría ser
 
 ```ruby
 create_table :products do |t|
@@ -337,14 +292,9 @@ create_table :products do |t|
 end
 ```
 
-which creates a `products` table with a column called `name` (and as discussed
-below, an implicit `id` column).
+El cual crea una tabla `products` con una columna llamada `name` (y como se ha desicutido debajo, una columna implicita `id`).
 
-By default, `create_table` will create a primary key called `id`. You can change
-the name of the primary key with the `:primary_key` option (don't forget to
-update the corresponding model) or, if you don't want a primary key at all, you
-can pass the option `id: false`. If you need to pass database specific options
-you can place an SQL fragment in the `:options` option. For example:
+Por defecto, `create_table` creará una clave primaria llamada `id`. Puedes cambiar el nombre de la clave primaria con la opción `:primary_key` (no te olvides de actualizar el modelo correspondiente modelo) o, si no quieres ninguna clave primaria, puedes escribir la opción `id: false`. Si necesitas pasarle a la base de datos opciones específicas puedes escribir un fragmento de SQĹ en la opción `:options`. Por ejemplo:
 
 ```ruby
 create_table :products, options: "ENGINE=BLACKHOLE" do |t|
@@ -352,41 +302,34 @@ create_table :products, options: "ENGINE=BLACKHOLE" do |t|
 end
 ```
 
-will append `ENGINE=BLACKHOLE` to the SQL statement used to create the table
-(when using MySQL, the default is `ENGINE=InnoDB`).
+esto añadirá `ENGINE=BLACKHOLE` con la declaración SQL utilizada para crear una tabla (cuando utilizamos MySQL, por defecto es `ENGINE=InnoDB`).
 
-### Creating a Join Table
+### Crear una Tabla de Intersección
 
-Migration method `create_join_table` creates a HABTM join table. A typical use
-would be:
+El método de migración `create_join_table` crea una tabla de intersección HABTM. Una típica podría ser:
 
 ```ruby
 create_join_table :products, :categories
 ```
 
-which creates a `categories_products` table with two columns called
-`category_id` and `product_id`. These columns have the option `:null` set to
-`false` by default. This can be overridden by specifying the `:column_options`
-option.
+la cual creará una tabla `categories_products` con dos columnas llamadas
+`category_id` y `product_id`. Esas columnas tienen la opción `:null` configurada a `false` por defecto. Esto será sobrescrito especificando la opción `:column_options`.
 
 ```ruby
 create_join_table :products, :categories, column_options: {null: true}
 ```
 
-will create the `product_id` and `category_id` with the `:null` option as
-`true`.
+creará `product_id` y `category_id` con la opción `:null` a `true`.
 
-You can pass the option `:table_name` when you want to customize the table
-name. For example:
+Puedes pasar la opción `:table_name` cuando quieras para adaptar el nombre de la tabla a tus necesidades. Por ejemplo:
 
 ```ruby
 create_join_table :products, :categories, table_name: :categorization
 ```
 
-will create a `categorization` table.
+creará una tabla `categorization`.
 
-`create_join_table` also accepts a block, which you can use to add indices
-(which are not created by default) or additional columns:
+`create_join_table` también accepta un bloque, el cual pudes utilizar para añadir índices (que no son creados por defecto) o columnas adicionales:
 
 ```ruby
 create_join_table :products, :categories do |t|
@@ -395,11 +338,9 @@ create_join_table :products, :categories do |t|
 end
 ```
 
-### Changing Tables
+### Cambiando Tablas
 
-A close cousin of `create_table` is `change_table`, used for changing existing
-tables. It is used in a similar fashion to `create_table` but the object
-yielded to the block knows more tricks. For example:
+La prima hermana de `create_table` es `change_table`, utilizada para modificar tablas existentes. Esto es utilizado de forma similar a `create_table` pero el objeto que se cede al bloque conoce más trucos. Por ejemplo:
 
 ```ruby
 change_table :products do |t|
@@ -410,10 +351,10 @@ change_table :products do |t|
 end
 ```
 
-removes the `description` and `name` columns, creates a `part_number` string
-column and adds an index on it. Finally it renames the `upccode` column.
+borra las columnas `description` y `name`, crea una columna string `part_number`
+y añade un ínice sobre ella. Finalmente renombra la columna `upccode`.
 
-### Changing Columns
+### Cambiando Columnas
 
 Like the `remove_column` and `add_column` Rails provides the `change_column`
 migration method.
@@ -422,43 +363,35 @@ migration method.
 change_column :products, :part_number, :text
 ```
 
-This changes the column `part_number` on products table to be a `:text` field.
+Esto cambia la columna `part_number` sobre la tabla products para convertirla en un campo de texto.
 
-Besides `change_column`, the `change_column_null` and `change_column_default`
-methods are used specifically to change the null and default values of a
-column.
+Además `change_column`, los métodos `change_column_null` y `change_column_default`
+son utilizados especificamente para cambiar el nulo y el valor por defecto de una columna.
 
 ```ruby
 change_column_null :products, :name, false
 change_column_default :products, :approved, false
 ```
 
-This sets `:name` field on products to a `NOT NULL` column and the default
-value of the `:approved` field to false.
+Esto establece el campo `:name` de products a una columna `NOT NULL` y el valor por defecto del campo `:approved` a false.
 
-TIP: Unlike `change_column` (and `change_column_default`), `change_column_null`
-is reversible.
+TIP: A diferencia de `change_column` (y `change_column_default`), `change_column_null` es reversible.
 
-### Column Modifiers
+### Modificadores de Columnas
 
-Column modifiers can be applied when creating or changing a column:
+Los modificadores de columnas pueden ser aplicados cuando se crea o se cambia una columna:
 
-* `limit`        Sets the maximum size of the `string/text/binary/integer` fields.
-* `precision`    Defines the precision for the `decimal` fields, representing the
-total number of digits in the number.
-* `scale`        Defines the scale for the `decimal` fields, representing the
-number of digits after the decimal point.
-* `polymorphic`  Adds a `type` column for `belongs_to` associations.
-* `null`         Allows or disallows `NULL` values in the column.
-* `default`      Allows to set a default value on the column. Note that if you
-are using a dynamic value (such as a date), the default will only be calculated
-the first time (i.e. on the date the migration is applied).
-* `index`        Adds an index for the column.
-* `required`     Adds `required: true` for `belongs_to` associations and
-`null: false` to the column in the migration.
+* `limit`        Establece el máximo tamaño de un campo `string/text/binary/integer` fields.
+* `precision`    Define la precisión de los campos `decimal`, representando el número de dígitos total del número.
+* `scale`        Define la escala para los campos `decimal`, representando el numero de dígitos después del punto decimal.
+* `polymorphic`  Añade una columna `type` para las asociaciones `belongs_to`.
+* `null`         Añade o rechaza valores `NULL` en la columna.
+* `default`      Permite establecer un valor por defecto de la columna. Nota que si utilizas un valor dinámico (como una fecha), el valor por defecto solo será calculado la primera vez (ej: en la fecha y hora que la migración es aplicada).
+* `index`        Añade un índice para la columna.
+* `required`     Añade `required: true` para las asociaciones `belongs_to` y
+`null: false` para la columna de la migración.
 
-Some adapters may support additional options; see the adapter specific API docs
-for further information.
+Algunos adaptadores pueden soportar opciones adicionales; ver el adaptador específico en los documentos API para más información.
 
 ### Foreign Keys
 
