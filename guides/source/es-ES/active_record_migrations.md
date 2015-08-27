@@ -18,7 +18,7 @@ Resumen de las Migraciones
 --------------------------
 
 Las migraciones son el modo  conveniente de
-[cambiar el esquema de tu base de datos a través del tiempo](http://en.wikipedia.org/wiki/Schema_migration) de una manera consistente y fácil. Ellas utilizan un lenguaje de Definición de Esquemas (DSL) en Ruby por lo que no tienes que escribir SQL a mano, permitiendole al esquema y a los cambios en la base de datos ser independientes.
+[cambiar el esquema de tu base de datos a través del tiempo](http://en.wikipedia.org/wiki/Schema_migration) de una manera consistente y fácil. Ellas utilizan un lenguaje de Definición de Esquemas (DSL) en Ruby por lo que no tienes que escribir SQL a mano, permitiéndole al esquema y a los cambios en la base de datos ser independientes.
 Puedes pensar cada migración como una nueva 'versión' de la base de datos. Un esquema comienza sin nada dentro, y cada migración lo modifica para añadir o remover tablas, columnas, o registros. Active Record conoce como actualizar tu esquema a lo largo de su vida, trayendo desde cualquier punto de su historia hasta la última versión. Active Record actualizará también el fichero
 `db/schema.rb` para emparejar la estructura modificada de tu base de datos.
 
@@ -393,65 +393,57 @@ Los modificadores de columnas pueden ser aplicados cuando se crea o se cambia un
 
 Algunos adaptadores pueden soportar opciones adicionales; ver el adaptador específico en los documentos API para más información.
 
-### Foreign Keys
+### Claves foraneas
 
-While it's not required you might want to add foreign key constraints to
-[guarantee referential integrity](#active-record-and-referential-integrity).
+Mientras que no es requerida podrías querer añadir una restricción de clave foranea para [garantizar la integridad referencial](#active-record-and-referential-integrity).
 
 ```ruby
 add_foreign_key :articles, :authors
 ```
 
-This adds a new foreign key to the `author_id` column of the `articles`
-table. The key references the `id` column of the `authors` table. If the
-column names can not be derived from the table names, you can use the
-`:column` and `:primary_key` options.
+Esto añade una nueva clave foranea a la columna `author_id` en la tabla `articles`. Las clave referencia a la columna `id` de la tabla `authors`. Si los nombres de las columnas no pueden ser derivados de los nombres de las tablas, puedes utilizar ls opciones `:column` y `:primary_key`.
 
-Rails will generate a name for every foreign key starting with
-`fk_rails_` followed by 10 random characters.
-There is a `:name` option to specify a different name if needed.
+Rails generará un nombre para cada clave foranea empezando por
+`fk_rails_` seguido por 10 caracteres aleatóreos.
+Hau una opción `:name` para especificar un nombre diferente si fuera necesario.
 
-NOTE: Active Record only supports single column foreign keys. `execute` and
-`structure.sql` are required to use composite foreign keys.
+NOTE: Active Record solo soporta una columna simple como clave foranea. `execute` y
+`structure.sql` son requeridas para utilizar claves foraneas compuestas.
 
-Removing a foreign key is easy as well:
+Removiendo una clave foranea es tan fácil como:
 
 ```ruby
-# let Active Record figure out the column name
+# decirle a Active Record que la averigue por los modelos involucrados
 remove_foreign_key :accounts, :branches
 
-# remove foreign key for a specific column
+# borrar la clave foranea de una columna específica
 remove_foreign_key :accounts, column: :owner_id
 
-# remove foreign key by name
+# borrar la clave foranea por su nombre
 remove_foreign_key :accounts, name: :special_fk_name
 ```
 
-### When Helpers aren't Enough
+### Cuando los Helpers no son Suficientes
 
-If the helpers provided by Active Record aren't enough you can use the `execute`
-method to execute arbitrary SQL:
+Si los helpers provistos por Active Record no son suficientes puedes utilizar el método `execute` para ejecutar cualquier SQL:
 
 ```ruby
 Product.connection.execute('UPDATE `products` SET `price`=`free` WHERE 1')
 ```
 
-For more details and examples of individual methods, check the API documentation.
-In particular the documentation for
+Para más detalles y ejemplos de métodos individuales, leer la documentación API.
+En particular la documentación para
 [`ActiveRecord::ConnectionAdapters::SchemaStatements`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html)
-(which provides the methods available in the `change`, `up` and `down` methods),
+(la cual provee los métodos disponibles en los métodos `change`, `up` y `down`),
 [`ActiveRecord::ConnectionAdapters::TableDefinition`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/TableDefinition.html)
-(which provides the methods available on the object yielded by `create_table`)
-and
+(el cual provee los métodos disponibles en el objeto cedido por `create_table`)
+y
 [`ActiveRecord::ConnectionAdapters::Table`](http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/Table.html)
-(which provides the methods available on the object yielded by `change_table`).
+(el cual provee los métodos disponibles en el objeto cedido por `change_table`).
 
-### Using the `change` Method
+### Utilizando el Método `change`
 
-The `change` method is the primary way of writing migrations. It works for the
-majority of cases, where Active Record knows how to reverse the migration
-automatically. Currently, the `change` method supports only these migration
-definitions:
+El método `change` es la principal manera de escribir migraciones. Este funciona para la mayoría de los casos, donde Active Record conoce como revertir la migración automaticamente. Actualmente, el método `change` soporta solo estas definiciones de migración:
 
 * `add_column`
 * `add_index`
@@ -468,17 +460,13 @@ definitions:
 * `remove_reference`
 * `rename_table`
 
-`change_table` is also reversible, as long as the block does not call `change`,
-`change_default` or `remove`.
+`change_table` es también reversible, siempre y cuando el bloque no llame a `change`,`change_default` o `remove`.
 
-If you're going to need to use any other methods, you should use `reversible`
-or write the `up` and `down` methods instead of using the `change` method.
+Si necesitarás utilizar algún otro método, deberías usar `reversible` o escribir los métodos `up` y `down` en lugar de utilizar el método `change`.
 
-### Using `reversible`
+### Usando `reversible`
 
-Complex migrations may require processing that Active Record doesn't know how
-to reverse. You can use `reversible` to specify what to do when running a
-migration what else to do when reverting it. For example:
+Migraciones complejas pueden requerir procesamiento que Active Record no sabe como revertir. Puedes utilizar `reversible` para especificar que hacer cuando estás ejecutando una migración y será lo que se haga cuando se revierta. Por ejemplo:
 
 ```ruby
 class ExampleMigration < ActiveRecord::Migration
@@ -489,7 +477,7 @@ class ExampleMigration < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        # add a CHECK constraint
+        # añadir una restricción CHECK
         execute <<-SQL
           ALTER TABLE distributors
             ADD CONSTRAINT zipchk
@@ -510,28 +498,15 @@ class ExampleMigration < ActiveRecord::Migration
 end
 ```
 
-Using `reversible` will ensure that the instructions are executed in the
-right order too. If the previous example migration is reverted,
-the `down` block will be run after the `home_page_url` column is removed and
-right before the table `distributors` is dropped.
+Utilizando `reversible` nos aseguraremos que las instrucciones son ejecutadas en el orden correcto también. Si ejemplo de la anterior migración es revertido, el bloque `down` será ejecutado después de que la columna `home_page_url` sea borrada y justo antes de que la tabla `distributors` se borre.
 
-Sometimes your migration will do something which is just plain irreversible; for
-example, it might destroy some data. In such cases, you can raise
-`ActiveRecord::IrreversibleMigration` in your `down` block. If someone tries
-to revert your migration, an error message will be displayed saying that it
-can't be done.
+Algunas veces tu migración hará algo que es simplemente irreversible, por ejemplo, pude borrar algunos datos, En tales casos, puedes lanzar una excepción
+`ActiveRecord::IrreversibleMigration` en tu bloque `down`. Si alguien intenta revertir tu migración, se le mostrará un mensaje de error diciendo que no se pude hacer.
 
-### Using the `up`/`down` Methods
+### Utilizando los Métodos `up`/`down`
 
-You can also use the old style of migration using `up` and `down` methods
-instead of the `change` method.
-The `up` method should describe the transformation you'd like to make to your
-schema, and the `down` method of your migration should revert the
-transformations done by the `up` method. In other words, the database schema
-should be unchanged if you do an `up` followed by a `down`. For example, if you
-create a table in the `up` method, you should drop it in the `down` method. It
-is wise to reverse the transformations in precisely the reverse order they were
-made in the `up` method. The example in the `reversible` section is equivalent to:
+También puedes utilizar los viejos métodos `up` y `down` en lugar del método `change`.
+El método `up` debería describir la transformación que deseas hacer a tu esquema, y el método `down` de tu migración debería revertir las transformaciones hechas por el método `up`. En otras palabras, el esquema de la base de datos permanecerá sin cambios si ejecutas un `up` seguido por un `down`. Por ejemplo, si creas una tabla en el método `up`, deberías borrarla en el método `down`. Esto es para revertir las transformaciones precisamente en el orden reverso en el que fueron hechas en el método `up`. El ejemplo en la sección `reversible` es equivalente a:
 
 ```ruby
 class ExampleMigration < ActiveRecord::Migration
@@ -540,7 +515,7 @@ class ExampleMigration < ActiveRecord::Migration
       t.string :zipcode
     end
 
-    # add a CHECK constraint
+    # añadir una restricción CHECK
     execute <<-SQL
       ALTER TABLE distributors
         ADD CONSTRAINT zipchk
@@ -565,14 +540,12 @@ class ExampleMigration < ActiveRecord::Migration
 end
 ```
 
-If your migration is irreversible, you should raise
-`ActiveRecord::IrreversibleMigration` from your `down` method. If someone tries
-to revert your migration, an error message will be displayed saying that it
-can't be done.
+Si tu migración es irreversible, deberías lanzar una
+`ActiveRecord::IrreversibleMigration` desde tu método `down`. Si alguién trata de revertir la mitración, un mensaje de error será mostrado diciendo que esto no se puede hacer.
 
-### Reverting Previous Migrations
+### Revertir Migraciones Anteriores
 
-You can use Active Record's ability to rollback migrations using the `revert` method:
+Puedes utilizar las posibilidades de Active Record para revertir migracciones utilizando el método `revert`:
 
 ```ruby
 require_relative '2012121212_example_migration'
@@ -588,17 +561,14 @@ class FixupExampleMigration < ActiveRecord::Migration
 end
 ```
 
-The `revert` method also accepts a block of instructions to reverse.
-This could be useful to revert selected parts of previous migrations.
-For example, let's imagine that `ExampleMigration` is committed and it
-is later decided it would be best to use Active Record validations,
-in place of the `CHECK` constraint, to verify the zipcode.
+El método `revert` también acepta un bloque de instrucciones para revertir.
+Este puede ser utilizado para revertir partes seleccionadas de las seleccionadas migraciones. Por ejemplo, vamos a imaginar que la `ExampleMigration` es cometida y más tarde se decide que lo mejor sería utilizar validaciones Active Record, en lugar de la restricción `CHECK`, para verificar el código postal (zipcode).
 
 ```ruby
 class DontUseConstraintForZipcodeValidationMigration < ActiveRecord::Migration
   def change
     revert do
-      # copy-pasted code from ExampleMigration
+      # código cortado y pedado de ExampleMigration
       reversible do |dir|
         dir.up do
           # add a CHECK constraint
@@ -616,126 +586,93 @@ class DontUseConstraintForZipcodeValidationMigration < ActiveRecord::Migration
         end
       end
 
-      # The rest of the migration was ok
+      # El resto de la migración fue bien
     end
   end
 end
 ```
 
-The same migration could also have been written without using `revert`
-but this would have involved a few more steps: reversing the order
-of `create_table` and `reversible`, replacing `create_table`
-by `drop_table`, and finally replacing `up` by `down` and vice-versa.
-This is all taken care of by `revert`.
+La misma migración podría también haberse escrito sin utilizar `revert` pero esto podría haber llevado unos pocos pasos más: revertiendo el orden de `create_table` y `reversible`, reemplazando `create_table` por `drop_table`, y finalmente reemplazando `up` por `down` y vice-versa.
+Todo esto está a cargo de `revert`.
 
-Running Migrations
-------------------
+Ejecutando Migraciones
+----------------------
 
-Rails provides a set of Rake tasks to run certain sets of migrations.
+Rails provee un conjunto de tareas Rake para ejecutar cierto conjunto de migraciones.
 
-The very first migration related Rake task you will use will probably be
-`rake db:migrate`. In its most basic form it just runs the `change` or `up`
-method for all the migrations that have not yet been run. If there are
-no such migrations, it exits. It will run these migrations in order based
-on the date of the migration.
+La primera tarea de migración que utilizarás será probablemente
+`rake db:migrate`. En su forma más básica ejecuta un método `change` o `up`
+para todas las migraciones que aún no se han ejecutado. Si no hay tales migraciones, finaliza. Ejecutará esas migraciones en orden basado en la fecha de creación de cada migración.
 
-Note that running the `db:migrate` task also invokes the `db:schema:dump` task, which
-will update your `db/schema.rb` file to match the structure of your database.
+Nota que ejecutar la tarea `db:migrate` también se invoca la tarea `db:schema:dump`, el cual actualizará tu fichero `db/schema.rb` para emparejarlo a la estructura de tu base de datos.
 
-If you specify a target version, Active Record will run the required migrations
-(change, up, down) until it has reached the specified version. The version
-is the numerical prefix on the migration's filename. For example, to migrate
-to version 20080906120000 run:
+Si especificas una versión de destino, Active Record ejecturará las migraciones requeridas (change, up, down) hasta alcanzar la versión específica. La versión es el prefijo numérico en el nombre de fichero de la migración. Por ejemplo, para migrar a la versión 20080906120000 ejectuta:
 
 ```bash
 $ bin/rake db:migrate VERSION=20080906120000
 ```
 
-If version 20080906120000 is greater than the current version (i.e., it is
-migrating upwards), this will run the `change` (or `up`) method
-on all migrations up to and
-including 20080906120000, and will not execute any later migrations. If
-migrating downwards, this will run the `down` method on all the migrations
-down to, but not including, 20080906120000.
+Si la versión 20080906120000 es mayor que la versión actual, y se está migrando hacia arriba, se ejectutarán el método `change` (o `up`) en todas las migraciones hacia arriba e incluirá la 20080906120000, y no ejecutará ninguna migración posterior. Si se está migrando hacia abajo, esto ejecutará los metodos `down` de todas las migraciones hacia abajo, paro no incluirá la 20080906120000.
 
-### Rolling Back
+### Deshaciendo Migraciones
 
-A common task is to rollback the last migration. For example, if you made a
-mistake in it and wish to correct it. Rather than tracking down the version
-number associated with the previous migration you can run:
+Una tarea común es deshacer la última migración. Por ejemplo, si cometes un error en esta y quieres corregirlo. En lugar de rastrear la versión anteior asociada puedes ejecutar:
 
 ```bash
 $ bin/rake db:rollback
 ```
 
-This will rollback the latest migration, either by reverting the `change`
-method or by running the `down` method. If you need to undo
-several migrations you can provide a `STEP` parameter:
+Esto ejutará hacia atrás la última migración, ya sea por revertir el método `change` o por ejecución del método `down`. Si necesitas deshacer varias migraciones puedes proveer un parámetro `STEP`:
 
 ```bash
 $ bin/rake db:rollback STEP=3
 ```
 
-will revert the last 3 migrations.
+revertirá las últimas 3 migraciones.
 
-The `db:migrate:redo` task is a shortcut for doing a rollback and then migrating
-back up again. As with the `db:rollback` task, you can use the `STEP` parameter
-if you need to go more than one version back, for example:
+La tarea `db:migrate:redo` es un atajo para deshacer y luego migrar hacia arriba otra vez. Tanto con la tarea `db:rollback`, puedes utilizar el parámetro `STEP`
+
+Si necesitas más retroceder más de una versión, por ejemplo:
 
 ```bash
 $ bin/rake db:migrate:redo STEP=3
 ```
 
-Neither of these Rake tasks do anything you could not do with `db:migrate`. They
-are simply more convenient, since you do not need to explicitly specify the
-version to migrate to.
+Ningna de estas tareas Rake hace algo que no se pueda hacer con `db:migrate`. Son simplemente más convenientes, por que no necesitas escribir la versión específica desde la cual hay deshacer y volver a ejecutar las migraciones.
 
-### Setup the Database
+### Configurar la Base de Datos
 
-The `rake db:setup` task will create the database, load the schema and initialize
-it with the seed data.
+La tarea `rake db:setup` creará la base de datos, carga el esquema los datos iniciales.
 
-### Resetting the Database
+### Recomponer la Base de Datos
 
-The `rake db:reset` task will drop the database and set it up again. This is
-functionally equivalent to `rake db:drop db:setup`.
+La tarea `rake db:reset` borrará la base de datos y la configurá nuevamente. Esto es funcionalmente equivalente a `rake db:drop db:setup`.
 
-NOTE: This is not the same as running all the migrations. It will only use the
-contents of the current `schema.rb` file. If a migration can't be rolled back,
-`rake db:reset` may not help you. To find out more about dumping the schema see
-[Schema Dumping and You](#schema-dumping-and-you) section.
+NOTE: Esto no es lo mismo que ejecutar todas las migraciones. Esto utilizará unicamente el fichero `schema.rb` actual. Si una migración no puede ser revertida, `rake db:reset` no te podrá ayudar. Para descubrir más acerca del volcado del esquema ver la sección [El Volcado del Esquema y Tú](#schema-dumping-and-you).
 
-### Running Specific Migrations
+### Ejecutar Migraciones Específicas
 
-If you need to run a specific migration up or down, the `db:migrate:up` and
-`db:migrate:down` tasks will do that. Just specify the appropriate version and
-the corresponding migration will have its `change`, `up` or `down` method
-invoked, for example:
+Si necesitas ejecutar una migración específica hacia arriba o abajo, las tareas `db:migrate:up` y `db:migrate:down` harán esto. Sólo especifica la versión adecuada y la migración correspondiente tendrá su método `change`, `up` o `down` invocado, por ejemplo:
 
 ```bash
 $ bin/rake db:migrate:up VERSION=20080906120000
 ```
 
-will run the 20080906120000 migration by running the `change` method (or the
-`up` method). This task will
-first check whether the migration is already performed and will do nothing if
-Active Record believes that it has already been run.
+ejecutara la migración 20080906120000 por ejecución del método `change` (o del método `up`). Esta tarea primero comprobará si la migración está ya realizada y no hará nada si Active Record cree que esta ya se ha ejecutado antes.
 
-### Running Migrations in Different Environments
+### Ejecutando Migraciones en Diferentes Entornos
 
-By default running `rake db:migrate` will run in the `development` environment.
-To run migrations against another environment you can specify it using the
-`RAILS_ENV` environment variable while running the command. For example to run
-migrations against the `test` environment you could run:
+Por defecto cuando ejecutamos `rake db:migrate` se ejecutará en el entorno de desarrollo  o `development`.
+Si quieres ejecutar las migraciones otra vez en otro entorno, puedes especificarlo utilizando la variable de entorno `RAILS_ENV` cuando ejecutas el comando. Por ejemplo para ejecutar las migraciones nuevamente en el entorno de pruebas, `test`, podrías ejecutar:
 
 ```bash
 $ bin/rake db:migrate RAILS_ENV=test
 ```
 
-### Changing the Output of Running Migrations
+### Cambiando la Salida de la Ejecución de Migraciones
 
-By default migrations tell you exactly what they're doing and how long it took.
-A migration creating a table and adding an index might produce output like this
+Por defecto las migraciones te indican exactamente que han hecho y cuanto tiempo le ha llevado.
+Una migración que crea una tabla y añade un índice puede producir una salida como esta:
 
 ```bash
 ==  CreateProducts: migrating =================================================
@@ -744,15 +681,15 @@ A migration creating a table and adding an index might produce output like this
 ==  CreateProducts: migrated (0.0028s) ========================================
 ```
 
-Several methods are provided in migrations that allow you to control all this:
+Varios métodos son provistos en las migraciones que te permiten controlar todo esto:
 
-| Method               | Purpose
+| Método               | Propósito
 | -------------------- | -------
-| suppress_messages    | Takes a block as an argument and suppresses any output generated by the block.
-| say                  | Takes a message argument and outputs it as is. A second boolean argument can be passed to specify whether to indent or not.
-| say_with_time        | Outputs text along with how long it took to run its block. If the block returns an integer it assumes it is the number of rows affected.
+| suppress_messages    | Toma un bloque como argumento y suprime cualquier salida generada por el bloque.
+| say                  | Toma como argumento un mensaje y emite tal cual es. Se le puede pasar un segundo argumento booleano para especificar si se va a tabular  o no.
+| say_with_time        | Salida de texto junto con el tiempo que tomó para ejecutar el bloque correspondiente. Si el bloque devuelve un entero que asume que es el número de filas afectadas.
 
-For example, this migration:
+Por ejemplo, esta migración:
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -778,7 +715,7 @@ class CreateProducts < ActiveRecord::Migration
 end
 ```
 
-generates the following output
+genera la siguiente salida
 
 ```bash
 ==  CreateProducts: migrating =================================================
@@ -790,53 +727,32 @@ generates the following output
 ==  CreateProducts: migrated (10.0054s) =======================================
 ```
 
-If you want Active Record to not output anything, then running `rake db:migrate
-VERBOSE=false` will suppress all output.
+Si quieres que Active Record no muestre ninguna salida, ejecutando `rake db:migrate VERBOSE=false` se suprimirán toda las salidas.
 
-Changing Existing Migrations
-----------------------------
+Cambiando las Migraciones Existentes
+------------------------------------
 
-Occasionally you will make a mistake when writing a migration. If you have
-already run the migration then you cannot just edit the migration and run the
-migration again: Rails thinks it has already run the migration and so will do
-nothing when you run `rake db:migrate`. You must rollback the migration (for
-example with `rake db:rollback`), edit your migration and then run
-`rake db:migrate` to run the corrected version.
+Ocasionalmente podemos cometer un error cuando escribimos una migración. Si has ejecutado ya la migración entonces no puedes editarla y ejecutarla otra vez: Rails pensará que ya se ha ejecutado la migración y no hará nada cuando ejecutes otra vez `rake db:migrate`. Por eso debes revertir la migración (por ejemplo con `rake db:rollback`), edita la migración y luego escribe `rake db:migrate` para ejecutar la versión corregida.
 
-In general, editing existing migrations is not a good idea. You will be
-creating extra work for yourself and your co-workers and cause major headaches
-if the existing version of the migration has already been run on production
-machines. Instead, you should write a new migration that performs the changes
-you require. Editing a freshly generated migration that has not yet been
-committed to source control (or, more generally, which has not been propagated
-beyond your development machine) is relatively harmless.
+En general, editar una migración existente no es una buena idea. Crearás trabajo extra para ti mismo y tus colaboradores y causará mayores dolores de cabeza si la versión existente de una migración ha sido ya ejecutada en los servidores de producción. En su lugar, deberías escribir una nueva migración que realice los cambios que requieres. Editar una fresca migración recién generada que no ha sido cometida en la base de datos, controlano el código fuente (que además en general no se ha propagado más allá de tu máquina de desarrollo) es reletivamente inofensivo.
 
-The `revert` method can be helpful when writing a new migration to undo
-previous migrations in whole or in part
-(see [Reverting Previous Migrations](#reverting-previous-migrations) above).
+El método `revert` puede ser de mucha ayuda cuando escribes una nueva migración para deshacer migraciones anteriores en conjunto o en parte
+(ver [Revertir Migraciones Anteriores](#reverting-previous-migrations) arriba).
 
-Schema Dumping and You
-----------------------
+Volcando el Esquema y Tú
+------------------------
 
-### What are Schema Files for?
+### ¿Para qué son los Ficheros de Esquema?
 
-Migrations, mighty as they may be, are not the authoritative source for your
-database schema. That role falls to either `db/schema.rb` or an SQL file which
-Active Record generates by examining the database. They are not designed to be
-edited, they just represent the current state of the database.
+Las migraciones, con lo poderosas que pueden ser, no son la fuente fiel de tu esquema de base de datos. Este rol cae sobre ya sea sobre el fichero `db/schema.rb` o un fichero SQL generado por Active Record al examinar la base de datos. Estos no están diseñados para ser editados, representan solo el estado actual del esquema de la base de datos.
 
-There is no need (and it is error prone) to deploy a new instance of an app by
-replaying the entire migration history. It is much simpler and faster to just
-load into the database a description of the current schema.
+No es necesario (y eso es un error repetido) despelegar una nueva instancia de una aplicación a través de volver a ejecutar todas el historial de migraciones. Es mucho más simple y rápido gargar en la base de datos la descripción del esquema actual.
 
-For example, this is how the test database is created: the current development
-database is dumped (either to `db/schema.rb` or `db/structure.sql`) and then
-loaded into the test database.
+Por ejemplo, así es como la base de datos de test es creada: la actual base de datos de desarrollo es volcada (ya sea desde `db/schema.rb` o desde `db/structure.sql`) y luego grabada en la base de datos de test.
 
-Schema files are also useful if you want a quick look at what attributes an
-Active Record object has. This information is not in the model's code and is
-frequently spread across several migrations, but the information is nicely
-summed up in the schema file. The
+Los fichero de esquema son también útiles si quieres echar un vistazo a los atributos que un objeto Active Record tiene. Esta información no está en el código de los modelos y es frecuentemente propagado a través de varias migraciones, pero esta información está muy bien resumida en el fichedo de esquema. //TODO
+
+The
 [annotate_models](https://github.com/ctran/annotate_models) gem automatically
 adds and updates comments at the top of each model summarizing the schema if
 you desire that functionality.

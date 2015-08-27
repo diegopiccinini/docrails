@@ -461,7 +461,7 @@ Esta acción esta ahora mostrando los parametros del artículo que ha llegado de
 Los modelos en Rails utilizan un nombre en singular, y se corresponden con las las tablas de la base de datos que utilizan el nombre pero en plural. Rails provee un generador para crear modelos, que la mayoría de los desarrolladores Rails tienden a utilizar cuando crean nuevos modelos. Para crear un nuevo modelo, ejecuta este comando en tu terminal:
 
 ```bash
-$ bin/rails generate model Articulo titular:string text:contenido
+$ bin/rails generate model Articulo titular:string contenido:text
 ```
 
 Con este comando estamos diciéndole a Rails que queremos un modelo `Articulo`, junto con un atributo _titular_ del tipo string, y un atributo _contenido_ del tipo text. Estos atributos son automaticamente añadidos a la tabla `articulos` en la base de datos y mapeados en el modelo `Articulo`.

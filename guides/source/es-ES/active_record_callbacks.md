@@ -8,7 +8,7 @@ Después de leer esta guía conoceras:
 
 * El ciclo de vida de los objetos Active Record.
 * Como crear métodos de retrollamada que respondan a eventos en el ciclo de vida del objeto.
-* Como crear clases especiales para encapsular el comportamietno comun para tus callbacks.
+* Como crear clases especiales para encapsular el comportamietno común para tus callbacks.
 
 --------------------------------------------------------------------------------
 
