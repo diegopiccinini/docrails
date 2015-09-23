@@ -13,17 +13,17 @@
       url: active_record_basics.html
       description: Esta guía te dará una introducción al modelo, a la persistencia en una base de datos y también al patrón y a la librería de Active Record.
     -
-      name: Active Record Migrations
+      name: Migraciones Active Record
       url: active_record_migrations.html
-      description: This guide covers how you can use Active Record migrations to alter your database in a structured and organized manner.
+      description: Esta guía cubre como puedes utilizar las migraciones Active Record para cambiar tu base de datos con una metodología estrurada y organizada.
     -
       name: Active Record Validations
       url: active_record_validations.html
       description: This guide covers how you can use Active Record validations
     -
-      name: Active Record Callbacks
+      name: Callbacks Active Record
       url: active_record_callbacks.html
-      description: This guide covers how you can use Active Record callbacks.
+      description: Esta guía cubre como puedes utilizar los callbacks (retrollamadas) Active Record.
     -
       name: Active Record Associations
       url: association_basics.html

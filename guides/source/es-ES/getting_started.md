@@ -422,7 +422,7 @@ Necesitas ahora crear la acción `create` action dentro de el `ArticulosControll
 
 ### Creando artículos
 
-Para hacer que se vaya el "Unknown action", pudes definir una acción `create` dentro de la clase `ArticulosController` en el fichero `app/controllers/articulos_controller.rb`, por debajo de la acción `new`, como se muestra:
+Para hacer que se vaya el "Unknown action", puedes definir una acción `create` dentro de la clase `ArticulosController` en el fichero `app/controllers/articulos_controller.rb`, por debajo de la acción `new`, como se muestra:
 
 ```ruby
 class ArticulosController < ApplicationController
@@ -572,8 +572,7 @@ TIP: Para más informacion, sobre lo que indicamos recién se puede leer
 
 ### Mostrando Artículos
 
-Si tu envías el formulario otra vez ahora, Rails If you submit the form again now, Rails se quejará al no encontrar la acción
-`show`. Esto no es lo que queremos, así que vamos añadir la acción `show` antes de continuar.
+Si tu envías el formulario otra vez ahora, Rails se quejará al no encontrar la acción `show`. Esto no es lo que queremos, así que vamos añadir la acción `show` antes de continuar.
 
 Como hemos visto en la salida de `rake routes`, la ruta para la acción `show` es la siguiente:
 
@@ -1617,7 +1616,7 @@ class ComentariosController < ApplicationController
   # recortado para abreviar
 ```
 
-Ahora si tratas de crear un nuevo artículo, serás recibido por un requerimietno de autenticación básica HTTP:
+Ahora si tratas de crear un nuevo artículo, serás recibido por un requerimiento de autenticación básica HTTP:
 
 ![Requerimiento de Autenticación Básico HTTP](images/getting_started/es-ES/challenge.png)
 

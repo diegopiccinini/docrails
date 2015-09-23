@@ -22,7 +22,7 @@ Active Record es la M en [MVC](getting_started.html#the-mvc-architecture) - el m
 
 ### El Patrón Active Record
 
-[Active Record fue descripto por Martin Fowler](http://www.martinfowler.com/eaaCatalog/activeRecord.html)
+[Active Record fue descripto por Martin Fowler](http://www.martinfowler.com/Catalog/activeRecord.html)
 en su libro  _Patterns of Enterprise Application Architecture_. En
 Active Record, los objetos soportan tanto la persistencia y el comportamiento que opera con los datos. Active Record toma la opinion que al asegurar el acceso lógico a los datos como parte del objeto educará a los usuarios de ese objeto sobre como escribir y leer en la base de datos.
 

@@ -750,22 +750,16 @@ No es necesario (y eso es un error repetido) despelegar una nueva instancia de u
 
 Por ejemplo, así es como la base de datos de test es creada: la actual base de datos de desarrollo es volcada (ya sea desde `db/schema.rb` o desde `db/structure.sql`) y luego grabada en la base de datos de test.
 
-Los fichero de esquema son también útiles si quieres echar un vistazo a los atributos que un objeto Active Record tiene. Esta información no está en el código de los modelos y es frecuentemente propagado a través de varias migraciones, pero esta información está muy bien resumida en el fichedo de esquema. //TODO
+Los fichero de esquema es también útil si quieres echar un vistazo a los atributos que un objeto Active Record tiene. Esta información no está en el código de los modelos y es frecuentemente propagada a través de varias migraciones, pero esta información está muy bien resumida en el fichero de esquema.
 
-The
-[annotate_models](https://github.com/ctran/annotate_models) gem automatically
-adds and updates comments at the top of each model summarizing the schema if
-you desire that functionality.
+La gema annotate_models](https://github.com/ctran/annotate_models) automaticamente añade y actualiza comentarios en la parte superior del cada modelo resumiendo el esquema si deseas esa funcionalidad.
 
-### Types of Schema Dumps
+### Tipos de Volcado del Esquema
 
-There are two ways to dump the schema. This is set in `config/application.rb`
-by the `config.active_record.schema_format` setting, which may be either `:sql`
-or `:ruby`.
+Hay 2 maneras de volcar el esquema. Esto se configura en `config/application.rb`
+a través de la directiva `config.active_record.schema_format`, la cual puede ser o bien `:sql` o `:ruby`.
 
-If `:ruby` is selected then the schema is stored in `db/schema.rb`. If you look
-at this file you'll find that it looks an awful lot like one very big
-migration:
+Si está seleccionado `:ruby` entonces el esquema es guardado en `db/schema.rb`. Si miras este fichero encontrarás que luce casi como una gran migración:
 
 ```ruby
 ActiveRecord::Schema.define(version: 20080906171750) do
@@ -785,61 +779,33 @@ ActiveRecord::Schema.define(version: 20080906171750) do
 end
 ```
 
-In many ways this is exactly what it is. This file is created by inspecting the
-database and expressing its structure using `create_table`, `add_index`, and so
-on. Because this is database-independent, it could be loaded into any database
-that Active Record supports. This could be very useful if you were to
-distribute an application that is able to run against multiple databases.
+En muchos sentidos esto es exactamente lo que es. Este fichero fue creado inspeccionando la base de datos y expresando su estructura utilizando `create_table`, `add_index`, etc. Porque es independiente de la base de datos, podría ser cargdo en cualquier base de datos que Active Record soporte. Esto podría ser muy útil is tienes que distribuir una aplicación que debe estar disponible para ejecutarse contra multiples bases de datos.
 
-There is however a trade-off: `db/schema.rb` cannot express database specific
-items such as triggers, or stored procedures. While in a migration you can
-execute custom SQL statements, the schema dumper cannot reconstitute those
-statements from the database. If you are using features like this, then you
-should set the schema format to `:sql`.
+Sin embargo hay algunas funcionalidades que quedan fuera: `db/schema.rb` no puede expresar items específicos de una base de datos como disparadores, o procedimientos almacenados. Mientras que en una migración tu puedes ejecutar definiciones SQL personlizadas, al volcado del esquema no puede reconstituir aquellas definiciones desde la base de datos. Si estás utilizando características como estas, entonces deberías configuar el formato del esquema a `:sql`.
 
-Instead of using Active Record's schema dumper, the database's structure will
-be dumped using a tool specific to the database (via the `db:structure:dump`
-Rake task) into `db/structure.sql`. For example, for PostgreSQL, the `pg_dump`
-utility is used. For MySQL, this file will contain the output of
-`SHOW CREATE TABLE` for the various tables.
+En lugar de utilizar el volcado del esquema de Active Record, la estructura de la base de datos será volcada utilizando una herramienta específica de la base de datos dentro del `db/structure.sql` (via la tarea Rake `db:structure:dump`). Por ejemplo, para PostgreSQL, se utiliza  `pg_dump`. Para MySQL, este fichero contendrá la salida  `SHOW CREATE TABLE` te varias tablas.
 
-Loading these schemas is simply a question of executing the SQL statements they
-contain. By definition, this will create a perfect copy of the database's
-structure. Using the `:sql` schema format will, however, prevent loading the
-schema into a RDBMS other than the one used to create it.
+Cargar estos esquemas es sencillamente cuestión de ejecutar las definiciones SQL que contienen. Por definción, esto creará una copia perfecta de la estructura de la base de datos. Utilizando el formato del esquema `:sql` sin embargo, vamos a asegurarnos la carga del esquema en otro RDBMS distinto al que fue utilizado para crearlo.
 
-### Schema Dumps and Source Control
+### Volcados del Esquema y Control de la Fuente
 
-Because schema dumps are the authoritative source for your database schema, it
-is strongly recommended that you check them into source control.
+Porque los volcados del esquema son la fuente que manda para tu esquema de base de datos, esto más que recomendable que las revises dentro del control de la fuente.
 
-`db/schema.rb` contains the current version number of the database. This
-ensures conflicts are going to happen in the case of a merge where both
-branches touched the schema. When that happens, solve conflicts manually,
-keeping the highest version number of the two.
+`db/schema.rb` contiene la versión actual de la base de datos. Esto asegura que los conflictos ocurrirán en el caso de que se mezclen dos ramas que han tocado el esquema. Cuando esto ocurre, resuelve los conflictos manualmente, manteniendo el número de versión más alto entre los dos.
 
-Active Record and Referential Integrity
----------------------------------------
+Active Record y la Integridad Referencial
+-----------------------------------------
 
-The Active Record way claims that intelligence belongs in your models, not in
-the database. As such, features such as triggers or constraints,
-which push some of that intelligence back into the database, are not heavily
-used.
+El metodología de Active Record dice que la inteligencia pertenece al modelo, no a la base de datos. Así bien, características tales como disparadores o restricciones, las cuales otorgan algo de inteligencia a la base de datos, no son fuertemente utilizadas.
 
-Validations such as `validates :foreign_key, uniqueness: true` are one way in
-which models can enforce data integrity. The `:dependent` option on
-associations allows models to automatically destroy child objects when the
-parent is destroyed. Like anything which operates at the application level,
-these cannot guarantee referential integrity and so some people augment them
-with [foreign key constraints](#foreign-keys) in the database.
+Las validaciones tal como `validates :foreign_key, uniqueness: true` son un modo por el cual los modelos pueden forzar la integridad de los datos. La opción `:dependent` en las asociaciones permite a los modelos destruir los objetos que son hijos cuando el padre es destruido. Como cualquier cosa que opere a nivel de aplicación, eso no garantiza integridad referencial, entonces algunas personas se aseguran esta con [restricciones sobre las claves foraneas](#foreign-keys) en la base de datos.
 
-Although Active Record does not provide all the tools for working directly with
-such features, the `execute` method can be used to execute arbitrary SQL.
+Sin embargo Active Record no provee todas las herramientas para trabajar directamente con algunas características, el método `execute` puede ser utilizado para ejecutar un SQL arbitrario.
 
-Migrations and Seed Data
-------------------------
+Migarciones y Semillas de Datos
+-------------------------------
 
-Some people use migrations to add data to the database:
+Algunas personas utilizan las migraciones para añadir datos a la base de datos:
 
 ```ruby
 class AddInitialProducts < ActiveRecord::Migration
@@ -855,15 +821,11 @@ class AddInitialProducts < ActiveRecord::Migration
 end
 ```
 
-However, Rails has a 'seeds' feature that should be used for seeding a database
-with initial data. It's a really simple feature: just fill up `db/seeds.rb`
-with some Ruby code, and run `rake db:seed`:
+Sin embargo, Rails tiene una caraterística 'seeds' que puede ser utilizada para crear las semillas en una base de datos con datos iniciales. Esta es una característica realmente simple: solo rellena `db/seeds.rb` con algún codigo Ruby, y ejecuta `rake db:seed`:
 
 ```ruby
 5.times do |i|
   Product.create(name: "Product ##{i}", description: "A product.")
 end
 ```
-
-This is generally a much cleaner way to set up the database of a blank
-application.
+Esto es generalmente el camino más limpio para configurar la base de datos de una aplicación en blanco.
