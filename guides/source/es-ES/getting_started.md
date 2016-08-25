@@ -1125,7 +1125,7 @@ class ArticulosController < ApplicationController
 end
 ```
 
-Con el método `destroy` puedes destruir un objeto Active Record cuando quieras borrarlo de la base de datos. Noa que no necesitamos añadir una vista para esta acción al redirigir al final a la acción `index`.
+Con el método `destroy` puedes destruir un objeto Active Record cuando quieras borrarlo de la base de datos. No necesitamos añadir una vista para esta acción al redirigir al final a la acción `index`.
 
 Finalmente, añade un enlace 'Borrar' en tu plantilla `index`
 (`app/views/articulos/index.html.erb`) para envolver todas las acciones junta.
@@ -1183,7 +1183,7 @@ Este comando generará cuatro ficheros:
 | db/migrate/20140120201010_create_comentarios.rb | La migración para crear la tabla comentarios en tu base de datos (el nombre de tu fichero incluirá una marca de tiempo diferente) |
 | app/models/comentario.rb                        | El modelo Comentario                                                                                      |
 | test/models/comentario_test.rb                  | Arnés de pruebas para el modelo comentarios                                                                 |
-| test/fixtures/comentarios.yml                   | Comentarios para utilizar en purebas                                                                     |
+| test/fixtures/comentarios.yml                   | Comentarios para utilizar en pruebas                                                                     |
 
 Primero, echar un vistazo a `app/models/comentario.rb`:
 
